@@ -1,0 +1,403 @@
+import type { Exam } from '../types'
+import {
+  ADC1_NOTE,
+  ADC1_PROMPT,
+  CACHE_NOTE,
+  CENET_PROMPT,
+  CHOICE_NOTE,
+  CLOZE_NOTE,
+  CLOZE_PROMPT,
+  EDF_EXTRA,
+  EDF_PROMPT,
+  EDF_STATES,
+  MC_NOTE,
+  PARETO_NOTE,
+  PARETO_NOTE_EXTRA,
+  PARETO_PROMPT,
+  PETRINET_PROMPT,
+  RTC_PROMPT_TAIL,
+  SEMAPHORE_EXTRA,
+  SEMAPHORE_STATES,
+  SEMAPHORE_TAIL,
+  STATECHART_PROMPT_HEAD,
+  STATECHART_PROMPT_TAIL,
+  STATECHART_STATES,
+  VHDL_NOTE,
+  VHDL_PROMPT,
+  cachePrompt,
+  grades,
+  ticks,
+} from './common'
+
+/**
+ * ES Summer Term 2024, evaluation report of 30.8.2024 (87.0 / 88 points, grade 1.0).
+ *
+ * This report was only available as page images, so the two exercises whose content
+ * is a wall of characters - the C/E Net options and the Petrinet flow relation - are
+ * shown as crops of the original page instead of retyped text. That is both 1:1 and
+ * free of transcription errors; `npm run figures` produces the crops.
+ */
+export const SS2024: Exam = {
+  id: 'ss2024',
+  term: 'ES Summer Term 2024',
+  order: 4,
+  totalPoints: 88,
+  grades: grades(88),
+  tasks: [
+    {
+      kind: 'cloze',
+      id: 'cloze',
+      title: 'Cloze Task',
+      points: 10,
+      prompt: CLOZE_PROMPT,
+      note: CLOZE_NOTE,
+      pointsPerGap: 1,
+      items: [
+        { text: 'The implicit path enumeration technique can be used as a part of {} estimation.', answer: 'WCET' },
+        {
+          text: 'In priority ceiling protocol, a given task $i$ is delayed at most {} by a lower-priority task.',
+          answer: 'once',
+        },
+        { text: 'StateCharts {} assumes a broadcast mechanism for variables.', answer: 'implicitly' },
+        { text: 'Faults in one Fault Containment Region should {} affect other regions.', answer: 'never' },
+        {
+          text: 'A Sample-and-Hold circuit is typically used to discretize a signal in the {} domain.',
+          answer: 'value',
+        },
+        {
+          text: 'A critical instant of a task is that time at which the release of a task will produce the {} response time.',
+          answer: 'largest',
+        },
+        {
+          text: 'For a given set of input data, Kahn Process Networks will {} generate the same results, independently of the speed of the nodes.',
+          answer: 'always',
+        },
+        {
+          text: 'The worst-case energy consumption $E_{WC}$ is a safe {} bound on the energey consumption.',
+          answer: 'upper',
+        },
+        { text: 'Static power consumption is caused by {} current.', answer: 'leakage' },
+        { text: 'FlexRay uses the bandwidth {} when it is needed.', answer: 'only' },
+      ],
+      distractors: [
+        'BCET',
+        'ACET',
+        'twice',
+        'never',
+        'explicitly',
+        'always',
+        'discrete time',
+        'time',
+        'frequency',
+        'smallest',
+        'average',
+        'lower',
+        'exact',
+        'switching',
+        'dynamic',
+        'sometimes',
+      ],
+    },
+
+    {
+      kind: 'grid',
+      id: 'statechart',
+      title: 'StateCharts',
+      points: 13,
+      prompt: STATECHART_PROMPT_HEAD,
+      promptExtra: ['$(s, a, j, b, d, c, f, i, k, a, t, s)$', STATECHART_PROMPT_TAIL],
+      figure: 'ss2024/statechart',
+      variant: 'statechart',
+      rows: ['(Reset)', 's', 'a', 'j', 'b', 'd', 'c', 'f', 'i', 'k', 'a', 't', 's'],
+      cols: [
+        'A', 'B', 'E', 'F', 'G', 'I', 'J', 'C', 'K', 'L', 'M', 'N', 'O', 'P', 'D', 'Q', 'R', 'T', 'U', 'V', 'S',
+      ],
+      states: STATECHART_STATES,
+      solutionFigure: 'ss2024/statechart-solution',
+    },
+
+    {
+      kind: 'choice',
+      id: 'cenet',
+      title: 'C/E Net',
+      points: 5,
+      prompt: CENET_PROMPT,
+      note: CHOICE_NOTE,
+      figure: 'ss2024/cenet',
+      correct: 1,
+      // The page is a scan, so the printed option block is shown as one figure.
+      optionsFigure: 'ss2024/cenet-options',
+      options: [{}, {}, {}, {}, {}, {}],
+    },
+
+    {
+      kind: 'multi',
+      id: 'petrinet',
+      title: 'Petrinets',
+      points: 2,
+      prompt: PETRINET_PROMPT,
+      // The flow relation is a crop of the original page - see the file comment.
+      figure: 'ss2024/petrinet',
+      note: MC_NOTE,
+      pointsPerStatement: 1,
+      statements: [
+        { text: 'The given net is pure', answer: false },
+        { text: 'The given net is simple', answer: true },
+      ],
+    },
+
+    {
+      kind: 'fields',
+      id: 'vhdl',
+      title: 'VHDL',
+      points: 8,
+      prompt: VHDL_PROMPT,
+      note: VHDL_NOTE,
+      figure: 'ss2024/vhdl',
+      layout: 'vhdl',
+      pointsPerField: 1,
+      columns: ['F', 'ena', 'E'],
+      fields: [
+        { id: 'vhdl-000', inputs: ['0', '0', '0'], expected: 'L' },
+        { id: 'vhdl-001', inputs: ['0', '0', '1'], expected: '0' },
+        { id: 'vhdl-010', inputs: ['0', '1', '0'], expected: '1' },
+        { id: 'vhdl-011', inputs: ['0', '1', '1'], expected: 'X' },
+        { id: 'vhdl-100', inputs: ['1', '0', '0'], expected: 'H' },
+        { id: 'vhdl-101', inputs: ['1', '0', '1'], expected: '0' },
+        { id: 'vhdl-110', inputs: ['1', '1', '0'], expected: '1' },
+        { id: 'vhdl-111', inputs: ['1', '1', '1'], expected: 'X' },
+      ],
+    },
+
+    {
+      kind: 'fields',
+      id: 'adc1',
+      title: 'A/D Converter 1',
+      points: 2,
+      prompt: ADC1_PROMPT,
+      note: ADC1_NOTE,
+      figure: 'ss2024/adc1',
+      layout: 'single',
+      pointsPerField: 2,
+      fields: [
+        { id: 'adc1-f', label: 'Minimum sample frequency:', expected: '70', unit: 'kHz', compare: 'number', points: 2 },
+      ],
+    },
+
+    {
+      kind: 'fields',
+      id: 'adc2',
+      title: 'A/D Converter 2',
+      points: 3,
+      prompt:
+        'In the following, a schematic of a flash A/D Converter is given which distinguishes between different, equidistant, positive analog voltage ranges. Assuming $V_{ref}$ = 5V, determine the binary outputs of the A/D Converter for the following input voltages. The output is assumed to be left-MSB (left-Most-Significant-Bit).',
+      note: 'Note: A single correct answer is worth 1P.',
+      figure: 'ss2024/adc2',
+      layout: 'adc',
+      pointsPerField: 1,
+      subtasks: [
+        { id: 'adc2-1', label: 'h(t) = 0.5V' },
+        { id: 'adc2-2', label: 'h(t) = 2.2V' },
+        { id: 'adc2-3', label: 'h(t) = 4.4V' },
+      ],
+      fields: [
+        { id: 'adc2-1', label: 'h(t) = 0.5V', expected: '0', compare: 'number' },
+        { id: 'adc2-2', label: 'h(t) = 2.2V', expected: '11', compare: 'number' },
+        { id: 'adc2-3', label: 'h(t) = 4.4V', expected: '111', compare: 'number' },
+      ],
+    },
+
+    {
+      kind: 'grid',
+      id: 'sched-prio',
+      title: 'Scheduling (Priority) 1',
+      points: 7,
+      prompt:
+        'Consider a system with three tasks $T_1$, $T_2$ and $T_3$, all accessing a shared resource. $T_3$ has the highest priority, $T_2$ the lowest. The tasks access this shared resource exclusively using a semaphore.',
+      promptExtra: [
+        ...SEMAPHORE_EXTRA,
+        'What is the resulting schedule for the task set given in the following table if preemptive, priority-based scheduling is used? Mark the critical, as well as the non-critical execution times in the following diagram for the given task set.',
+        ...SEMAPHORE_TAIL,
+      ],
+      variant: 'gantt',
+      rows: ['T1', 'T2', 'T3'],
+      cols: ticks(33),
+      states: SEMAPHORE_STATES,
+      table: {
+        headers: ['Task', 'Arrival', 'Execution Sequence', 'Duration'],
+        rows: [
+          ['T1', '3', 'N,N,S,S,S,N,S,S,N,S,N,N', '12'],
+          ['T2', '0', 'N,N,S,S,S,S,N,N', '8'],
+          ['T3', '6', 'N,N,N,S,S,N,S,S,N,N', '10'],
+        ],
+      },
+      solutionFigure: 'ss2024/sched-prio-solution',
+    },
+
+    {
+      kind: 'grid',
+      id: 'sched-pip',
+      title: 'Scheduling (Priority, PIP) 2',
+      points: 7,
+      prompt:
+        'Consider a system with three tasks $T_1$, $T_2$ and $T_3$, all accessing a shared resource. $T_2$ has the highest priority, $T_1$ the lowest. The tasks access this shared resource exclusively using a semaphore.',
+      promptExtra: [
+        ...SEMAPHORE_EXTRA,
+        'What is the resulting schedule for the task set given in the following table if preemptive, priority-based scheduling with priority inheritance protocol is used? Mark the critical, as well as the non-critical execution times in the following diagram for the given task set.',
+        ...SEMAPHORE_TAIL,
+      ],
+      variant: 'gantt',
+      rows: ['T1', 'T2', 'T3'],
+      cols: ticks(33),
+      states: SEMAPHORE_STATES,
+      table: {
+        headers: ['Task', 'Arrival', 'Execution Sequence', 'Duration'],
+        rows: [
+          ['T1', '1', 'N,S,S,N,N,S,S,S,N,S,N,N', '12'],
+          ['T2', '6', 'N,N,N,S,S,S,N,N', '8'],
+          ['T3', '3', 'N,S,S,N,S,S,S,N,N,N', '10'],
+        ],
+      },
+      solutionFigure: 'ss2024/sched-pip-solution',
+    },
+
+    {
+      kind: 'fields',
+      id: 'pareto',
+      title: 'Pareto 1',
+      points: 10,
+      prompt: PARETO_PROMPT,
+      promptExtra: [PARETO_NOTE_EXTRA],
+      note: PARETO_NOTE,
+      figure: 'ss2024/pareto',
+      layout: 'pareto',
+      pointsPerField: 2,
+      subtasks: [
+        { id: 'pareto-a', label: 'Platform A' },
+        { id: 'pareto-b', label: 'Platform B' },
+        { id: 'pareto-overall', label: 'Overall Pareto-optimal' },
+        { id: 'pareto-dominated', label: 'Dominated by A0' },
+        { id: 'pareto-dominating', label: 'Dominating B2' },
+      ],
+      fields: [
+        {
+          id: 'pareto-a',
+          group:
+            'What are the Pareto-optimal configurations for each hardware platform assuming minimization of objectives? (2P for each platform)',
+          label: 'Platform A:',
+          expected: 'a1,a2,a3',
+          compare: 'set',
+        },
+        {
+          id: 'pareto-b',
+          group:
+            'What are the Pareto-optimal configurations for each hardware platform assuming minimization of objectives? (2P for each platform)',
+          label: 'Platform B:',
+          expected: 'b0,b1,b2,b3,b4',
+          compare: 'set',
+        },
+        {
+          id: 'pareto-overall',
+          group: 'What are the overall Pareto-optimal configurations assuming minimization of objectives? (2P)',
+          expected: 'a1,a2,a3,b1,b4',
+          compare: 'set',
+        },
+        {
+          id: 'pareto-dominated',
+          group: 'Which configurations are overall dominated by the design A0? (2P)',
+          expected: 'a4,b0,b3',
+          compare: 'set',
+        },
+        {
+          id: 'pareto-dominating',
+          group: 'Which configurations are overall dominating the design B2? (2P)',
+          expected: 'a1,a2,a3',
+          compare: 'set',
+        },
+      ],
+    },
+
+    {
+      kind: 'choice',
+      id: 'rtc',
+      title: 'Real-Time Calculus',
+      points: 4,
+      prompt: `An event stream with the following properties is assumed: At least one event arrives within every 6 ticks and a second event may follow with a minimum delay of 2 tick. ${RTC_PROMPT_TAIL}`,
+      note: CHOICE_NOTE,
+      correct: 5,
+      optionsFigure: 'ss2024/rtc-options',
+      options: [{}, {}, {}, {}, {}, {}],
+    },
+
+    {
+      kind: 'fields',
+      id: 'caches-wc',
+      title: 'Caches 1',
+      points: 6,
+      prompt: cachePrompt(6, 'worst-case'),
+      note: CACHE_NOTE,
+      layout: 'cache',
+      pointsPerField: 1,
+      cacheColumns: ['c_0', 'c_1', 'c_2', 'c_3', 'c_4', 'c_5'],
+      before: [
+        { label: 'S_1', cells: ['{g}', '{a,h}', '{b,f}', '{d}', '{k}', '{o}'] },
+        { label: 'S_2', cells: ['{p}', '{e,d}', '{c}', '{b}', '{f}', '{g,h}'] },
+      ],
+      fields: [
+        { id: 'cwc-0', expected: '', compare: 'set' },
+        { id: 'cwc-1', expected: '', compare: 'set' },
+        { id: 'cwc-2', expected: '', compare: 'set' },
+        { id: 'cwc-3', expected: 'b,d', compare: 'set' },
+        { id: 'cwc-4', expected: 'f', compare: 'set' },
+        { id: 'cwc-5', expected: 'g,h', compare: 'set' },
+      ],
+    },
+
+    {
+      kind: 'fields',
+      id: 'caches-bc',
+      title: 'Caches 2',
+      points: 6,
+      prompt: cachePrompt(6, 'best-case'),
+      note: CACHE_NOTE,
+      layout: 'cache',
+      pointsPerField: 1,
+      cacheColumns: ['c_0', 'c_1', 'c_2', 'c_3', 'c_4', 'c_5'],
+      before: [
+        { label: 'S_1', cells: ['{g}', '{a,h}', '{b,f}', '{d}', '{k}', '{o}'] },
+        { label: 'S_2', cells: ['{p}', '{e,d}', '{c}', '{b,x}', '{f}', '{g,h}'] },
+      ],
+      fields: [
+        { id: 'cbc-0', expected: 'g,p', compare: 'set' },
+        { id: 'cbc-1', expected: 'a,d,e,h', compare: 'set' },
+        { id: 'cbc-2', expected: 'b,c,f', compare: 'set' },
+        { id: 'cbc-3', expected: 'x', compare: 'set' },
+        { id: 'cbc-4', expected: 'k', compare: 'set' },
+        { id: 'cbc-5', expected: 'o', compare: 'set' },
+      ],
+    },
+
+    {
+      kind: 'grid',
+      id: 'sched-edf',
+      title: 'Scheduling (EDF) 3',
+      points: 5,
+      prompt: EDF_PROMPT,
+      promptExtra: EDF_EXTRA,
+      variant: 'gantt',
+      rows: ['T1', 'T2', 'T3', 'T4'],
+      cols: ticks(30),
+      states: EDF_STATES,
+      table: {
+        headers: ['Task', 'Arrival', 'Absolute Deadline', 'Duration'],
+        rows: [
+          ['T1', '3', '15', '6'],
+          ['T2', '1', '18', '7'],
+          ['T3', '5', '9', '4'],
+          ['T4', '4', '25', '8'],
+        ],
+      },
+      solutionFigure: 'ss2024/sched-edf-solution',
+    },
+  ],
+}

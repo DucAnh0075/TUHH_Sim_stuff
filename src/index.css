@@ -1,0 +1,9 @@
+@import "tailwindcss";
+@import "katex/dist/katex.min.css";
+
+html,
+body {
+  margin: 0;
+  background: #ffffff;
+  font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+}
