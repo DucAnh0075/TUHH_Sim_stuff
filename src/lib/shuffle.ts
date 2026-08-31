@@ -1,3 +1,5 @@
+import type { Task } from '../types'
+
 /** Fisher-Yates, returns a new array. */
 export function shuffle<T>(items: readonly T[]): T[] {
   const out = [...items]
@@ -10,4 +12,10 @@ export function shuffle<T>(items: readonly T[]): T[] {
 
 export function pick<T>(items: readonly T[]): T {
   return items[Math.floor(Math.random() * items.length)]
+/**
+ * Shuffles the task order only. The statements keep their A-E order, just like
+ * in the exam.
+ */
+export function shuffleTasks(tasks: readonly Task[]): Task[] {
+  return shuffle(tasks)
 }
