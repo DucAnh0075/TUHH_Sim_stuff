@@ -148,32 +148,41 @@ type GanttProps = {
 function GanttGrid({ task, cells, evaluated, painting, setPainting, paint }: GanttProps) {
   return (
     <div className="overflow-x-auto">
-      <div className="inline-block border border-gray-500 select-none">
+      <div className="inline-block border-2 border-black select-none">
         {task.rows.map((row, r) => (
-          <div key={row} className="flex">
-            <div className="flex w-9 shrink-0 items-center justify-center border-r border-b border-gray-400 bg-white px-1 text-[12px] font-semibold text-gray-900">
+          // The solid row separator sits on the row wrapper: CSS applies border-style
+          // to all four sides, so a solid horizontal and a dashed vertical line have
+          // to live on different elements.
+          <div key={row} className="flex border-b border-black last:border-b-0">
+            <div className="flex w-9 shrink-0 items-center justify-center border-r-2 border-black bg-white px-1 text-[12px] font-semibold text-gray-900">
               {row}
             </div>
-            {task.cols.map((_, c) => (
-              <div
-                key={c}
-                onMouseDown={() => {
-                  setPainting(true)
-                  paint(r, c)
-                }}
-                onMouseEnter={() => painting && paint(r, c)}
-                style={{ background: task.states[cells[r][c]].color }}
-                className={`h-6 w-[22px] shrink-0 border-r border-b border-gray-300 ${
-                  evaluated ? '' : 'cursor-pointer'
-                }`}
-              />
-            ))}
+            {task.cols.map((_, c) => {
+              // As in the report: solid where a block starts or ends, dashed for the
+              // tick grid inside a run of the same colour.
+              const edge = c === task.cols.length - 1 || cells[r][c] !== cells[r][c + 1]
+
+              return (
+                <div
+                  key={c}
+                  onMouseDown={() => {
+                    setPainting(true)
+                    paint(r, c)
+                  }}
+                  onMouseEnter={() => painting && paint(r, c)}
+                  style={{ background: task.states[cells[r][c]].color }}
+                  className={`h-6 w-[22px] shrink-0 border-r border-black ${
+                    edge ? 'border-solid' : 'border-dashed'
+                  } ${evaluated ? '' : 'cursor-pointer'}`}
+                />
+              )
+            })}
           </div>
         ))}
         <div className="flex">
           <div className="w-9 shrink-0" />
           {task.cols.map((label) => (
-            <div key={label} className="w-[22px] shrink-0 text-center text-[10px] text-gray-600">
+            <div key={label} className="w-[22px] shrink-0 text-center text-[10px] text-gray-900">
               {label}
             </div>
           ))}
