@@ -10,6 +10,7 @@ from pathlib import Path
 
 import numpy as np
 from PIL import Image
+from scipy import ndimage
 
 ROOT = Path(__file__).resolve().parent.parent
 DPI = 110
@@ -158,12 +159,35 @@ def select(blocks, how, ink):
     return blocks[how] if how < len(blocks) else None
 
 
+def rtc_grid(png):
+    """
+    Die Real-Time-Calculus-Seite von SS 2024 ist ein Scan: die 6 Antwort-Karten
+    beruehren sich, ihre Raender bilden EINEN riesigen Blob, in dem sich normale
+    Luecken-Erkennung nicht trennen laesst. Stattdessen werden per 4-Connectivity-
+    Labeling die 6 mittelgrossen Komponenten gesucht - das sind genau die
+    Kurven+Achsen jeder Karte (viel kleiner als der Kartenrand-Blob, viel groesser
+    als die (A)-Kreise). Liefert 6 Rechtecke in Lesereihenfolge.
+    """
+    im = np.array(Image.open(png).convert('L'))
+    h, w = im.shape
+    ink = im < 253
+    y_start = int(0.14 * h)  # Kopfzeile, blaue Box und Hinweiszeile ueberspringen
+    region = ink[y_start:, :]
+    struct = np.array([[0, 1, 0], [1, 1, 1], [0, 1, 0]])
+    labeled, n = ndimage.label(region, structure=struct)
+    sizes = ndimage.sum(region, labeled, range(1, n + 1))
+    page_area = w * h
+    boxes = []
+    for i, size in enumerate(sizes):
+        if not (0.0008 * page_area <= size <= 0.01 * page_area):
+            continue
+        ys, xs = np.where(labeled == i + 1)
+        boxes.append((int(xs.min()), int(xs.max()), int(ys.min()) + y_start, int(ys.max()) + y_start))
+    boxes.sort(key=lambda b: (b[2], b[0]))  # oben nach unten, dann links nach rechts
+    return boxes, w, h
+
+
 # Sonderfaelle des Berichts SS 2024, dessen Seiten reine Bilder sind.
-SS2024_EXTRA = {
-    'petrinet':      (5, 'promptbox'),
-    'cenet-options': (4, 'options'),
-    'rtc-options':   (12, 0),
-}
 
 
 def main():
@@ -189,28 +213,31 @@ def main():
                     continue
                 figures[f'{exam}/{name}'] = {'page': page, 'rect': rect(band, w, h, side)}
 
-            # Real-Time Calculus: die Kurven sind echte eingebettete Bilder.
-            count = 6 if exam in ('ss2024', 'ws2425') else 5
-            if exam != 'ss2024':
+            # Real-Time Calculus: normalerweise sind die Kurven echte eingebettete
+            # Bilder; SS 2024 ist ein Scan ohne einzeln ansprechbare Bilder, dort
+            # werden die 6 Karten stattdessen ueber rtc_grid() auseinandergerechnet.
+            if exam == 'ss2024':
+                png = render(pdf, 12, tmp)
+                boxes, w, h = rtc_grid(png)
+                if len(boxes) != 6:
+                    problems.append(f'{exam}/rtc: {len(boxes)} Karten gefunden, erwartet 6')
+                # Nur 12px Rand: die richtige Antwort ist im Bericht gruen hinterlegt,
+                # ab 14px ragt diese Flaeche in den Ausschnitt hinein.
+                pad = 12
+                for i, (x0, x1, y0, y1) in enumerate(boxes):
+                    figures[f'{exam}/rtc-{chr(97 + i)}'] = {
+                        'page': 12,
+                        'rect': [
+                            round((x0 - pad) / w, 4),
+                            round((y0 - pad) / h, 4),
+                            round((x1 - x0 + 2 * pad) / w, 4),
+                            round((y1 - y0 + 2 * pad) / h, 4),
+                        ],
+                    }
+            else:
+                count = 6 if exam == 'ws2425' else 5
                 for i in range(count):
                     figures[f'{exam}/rtc-{chr(97 + i)}'] = {'page': 12, 'image': i}
-
-            if exam == 'ss2024':
-                for name, spec in SS2024_EXTRA.items():
-                    page = spec[0]
-                    png = render(pdf, page, tmp)
-                    bands, w, h, ink = analyse(png)
-                    if spec[1] == 'promptbox':
-                        # Die Flussrelation steht in der unteren Hälfte der blauen Box.
-                        box = [b for b in bands if 80 <= b['y0'] < 165][0]
-                        half = {'y0': (box['y0'] + box['y1']) // 2, 'y1': box['y1'], 'cols': box['cols']}
-                        figures[f'{exam}/{name}'] = {'page': page, 'rect': rect(half, w, h)}
-                    elif spec[1] == 'options':
-                        blocks = content(bands, h)
-                        figures[f'{exam}/{name}'] = {'page': page, 'rect': rect(blocks[-1], w, h)}
-                    else:
-                        blocks = content(bands, h)
-                        figures[f'{exam}/{name}'] = {'page': page, 'rect': rect(blocks[spec[1]], w, h)}
 
     manifest['figures'] = dict(sorted(figures.items()))
     (ROOT / 'figures.manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')

@@ -3,7 +3,6 @@ import {
   ADC1_NOTE,
   ADC1_PROMPT,
   CACHE_NOTE,
-  CENET_PROMPT,
   CHOICE_NOTE,
   CLOZE_NOTE,
   CLOZE_PROMPT,
@@ -31,11 +30,6 @@ import {
 
 /**
  * ES Summer Term 2024, evaluation report of 30.8.2024 (87.0 / 88 points, grade 1.0).
- *
- * This report was only available as page images, so the two exercises whose content
- * is a wall of characters - the C/E Net options and the Petrinet flow relation - are
- * shown as crops of the original page instead of retyped text. That is both 1:1 and
- * free of transcription errors; `npm run figures` produces the crops.
  */
 export const SS2024: Exam = {
   id: 'ss2024',
@@ -121,13 +115,31 @@ export const SS2024: Exam = {
       id: 'cenet',
       title: 'C/E Net',
       points: 5,
-      prompt: CENET_PROMPT,
+      prompt:
+        'Assume the following Condition/Event Net $N = (C, E, F)$. $C$ denotes conditions, $E$ events, and $F$ flow relations. Derive the correct set of flow relations for the given C/E Net. Only one of the following sets is correct.',
       note: CHOICE_NOTE,
       figure: 'ss2024/cenet',
       correct: 1,
-      // The page is a scan, so the printed option block is shown as one figure.
-      optionsFigure: 'ss2024/cenet-options',
-      options: [{}, {}, {}, {}, {}, {}],
+      options: [
+        {
+          text: '(c1,e1)(c1,e2)(c2,e1)(c3,e2)(c5,e1)(c7,e3)(c8,e4)(c7,e5)(c5,e3)(c6,e3)(c6,e1)(c6,e2)(c4,e3)(c3,e2)(e1,c3)(e1,c6)(e1,c5)(e2,c4)(e3,c2)(e3,c6)(e3,c8)(e4,c5)(e5,c8)(e6,c3)(e1,c2)(e1,c1)(e3,c4)',
+        },
+        {
+          text: '(c1,e3),(c2,e1)(c2,e5)(c3,e4)(c4,e6)(c5,e5)(c6,e2)(c7,e1)(c7,e3)(c8,e2)(e1,c1)(e1,c4)(e1,c5)(e1,c6)(e2,c7)(e3,c2)(e3,c8)(e4,c2)(e4,c5)(e5,c8)(e6,c3)',
+        },
+        {
+          text: '(c1,e3),(c2,e1)(c2,e5)(c3,e4)(c4,e6)(c5,e5)(c5,e1)(c7,e3)(c8,e3)(e1,c5)(e2,c4)(e3,c2)(e3,c6)(e2,c4)(e3,c1)(e2,c4)(e3,c8)(e4,c2)(e4,c5)(e5,c8)(e6,c3)',
+        },
+        {
+          text: '(c1,e4)(c1,e3)(c7,e3)(c8,e2)(c8,e5)(c2,e1)(c2,e4)(c6,e1)(c6,e2)(c4,e4)(c5,e2)(c5,e3)(c3,e3)(c3,e2)(e3,c2)(e4,c2)(e2,c1)(e1,c5)(e1,c4)(e6,c8)(e2,c6)(e3,c2)(e3,c6)(e4,c3)(e5,c7)',
+        },
+        {
+          text: '(c1,e1)(c1,e2)(c1,e4)(c1,e3)(c2,e1)(c2,e4)(c6,e1)(c6,e2)(c7,e1)(c7,e3)(c8,e2)(e1,c6)(e2,c7)(c4,e4)(c5,e2)(c5,e3)(c3,e3)(c3,e2)(e3,c2)(e4,c2)(e2,c1)(e1,c5)(e1,c4)(e1,c1)(e2,c4)(e3,c8)(e4,c5)(e5,c8)(e6,c3)',
+        },
+        {
+          text: '(c1,e3),(c2,e1)(c2,e5)(c3,e4)(c4,e6)(c5,e5)(c1,e2)(c3,e2)(c3,e3)(c3,e1)(c4,e3)(c5,e1)(c7,e3)(c8,e3)(e1,c5)(e2,c4)(e3,c2)(e3,c6)(e2,c4)(e3,c1)(e2,c4)(e3,c8)(e4,c2)(e4,c5)(e5,c8)(e6,c3)',
+        },
+      ],
     },
 
     {
@@ -136,13 +148,12 @@ export const SS2024: Exam = {
       title: 'Petrinets',
       points: 2,
       prompt: PETRINET_PROMPT,
-      // The flow relation is a crop of the original page - see the file comment.
-      figure: 'ss2024/petrinet',
+      promptExtra: ['$F = (c1, e1)(c1, e4)(c2, e2)(c3, e2)(c4, e3)(c5, e4)(e1, c5)(e2, c4)(e3, c2)(e4, c3)$'],
       note: MC_NOTE,
       pointsPerStatement: 1,
       statements: [
-        { text: 'The given net is pure', answer: false },
-        { text: 'The given net is simple', answer: true },
+        { text: 'The given net is pure', answer: true },
+        { text: 'The given net is not simple', answer: true },
       ],
     },
 
@@ -325,8 +336,14 @@ export const SS2024: Exam = {
       prompt: `An event stream with the following properties is assumed: At least one event arrives within every 6 ticks and a second event may follow with a minimum delay of 2 tick. ${RTC_PROMPT_TAIL}`,
       note: CHOICE_NOTE,
       correct: 5,
-      optionsFigure: 'ss2024/rtc-options',
-      options: [{}, {}, {}, {}, {}, {}],
+      options: [
+        { figure: 'ss2024/rtc-a' },
+        { figure: 'ss2024/rtc-b' },
+        { figure: 'ss2024/rtc-c' },
+        { figure: 'ss2024/rtc-d' },
+        { figure: 'ss2024/rtc-e' },
+        { figure: 'ss2024/rtc-f' },
+      ],
     },
 
     {
