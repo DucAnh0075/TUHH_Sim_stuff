@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { ModuleSelect, type ModuleId } from './components/ModuleSelect'
 import { ThemeToggle } from './components/ThemeToggle'
-import { ExamApp } from './modules/embedded/components/ExamApp'
+import { EmbeddedApp } from './modules/embedded/components/EmbeddedApp'
 import { GraphApp } from './modules/graph/components/GraphApp'
 
 function App() {
@@ -21,7 +21,7 @@ function App() {
       )}
 
       {module === null && <ModuleSelect onSelect={setModule} />}
-      {module === 'embedded' && <ExamApp />}
+      {module === 'embedded' && <EmbeddedApp />}
       {module === 'graph' && <GraphApp />}
     </>
   )

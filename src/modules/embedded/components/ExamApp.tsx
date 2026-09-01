@@ -27,7 +27,11 @@ function freshSession(exam: Exam): Session {
   }
 }
 
-export function ExamApp() {
+type Props = {
+  onLeave: () => void
+}
+
+export function ExamApp({ onLeave }: Props) {
   const [session, setSession] = useState<Session | null>(null)
   const [showResult, setShowResult] = useState(false)
   const main = useRef<HTMLElement>(null)
@@ -64,7 +68,7 @@ export function ExamApp() {
     )
   }, [session])
 
-  if (!session) return <ExamSelect onStart={start} />
+  if (!session) return <ExamSelect onStart={start} onLeave={onLeave} />
 
   const { exam, index, answers, confirmed, done } = session
   const task = exam.tasks[index]

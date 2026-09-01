@@ -4,13 +4,21 @@ import type { ExamId } from '../types'
 
 type Props = {
   onStart: (id: ExamId | 'mixed') => void
+  onLeave: () => void
 }
 
 /** Start screen: pick an exam (sorted by semester) or the mixed one. */
-export function ExamSelect({ onStart }: Props) {
+export function ExamSelect({ onStart, onLeave }: Props) {
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="mb-8 text-[32px] font-bold text-gray-900 dark:text-gray-100">Embedded Systems</h1>
+      <button
+        type="button"
+        onClick={onLeave}
+        className="mb-6 cursor-pointer text-[13px] text-gray-500 underline underline-offset-2 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+      >
+        ← Zurück
+      </button>
+      <h1 className="mb-8 text-[32px] font-bold text-gray-900 dark:text-gray-100">Klausuren</h1>
 
       <div className="flex flex-col gap-3">
         {EXAMS.map((exam) => {
