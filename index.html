@@ -7,10 +7,11 @@
     <title>ES Exam Trainer</title>
     <script>
       // Set the theme before first paint to avoid a flash of the wrong colours.
+      // Default is light; dark only when the user has explicitly chosen it.
       try {
-        var stored = localStorage.getItem('es-exam-trainer:theme')
-        var dark = stored ? stored === 'dark' : matchMedia('(prefers-color-scheme: dark)').matches
-        if (dark) document.documentElement.classList.add('dark')
+        if (localStorage.getItem('es-exam-trainer:theme') === 'dark') {
+          document.documentElement.classList.add('dark')
+        }
       } catch (e) {}
     </script>
   </head>
