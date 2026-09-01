@@ -31,18 +31,18 @@ export function SingleTask({ task, picked, evaluated, onChange }: Props) {
 
       <PromptBox prompt={task.prompt} extra={task.promptExtra} />
 
-      <p className="mt-4 mb-4 text-[14px] leading-snug text-gray-700 italic">
+      <p className="mt-4 mb-4 text-[14px] leading-snug text-gray-700 italic dark:text-gray-300">
         (Exactly one answer is correct. Correct answer: {task.points} points, wrong answer: 0 points.)
       </p>
 
       <div className="flex flex-col gap-3">
         {task.options.map((option, i) => {
-          // Exam colour scheme: after evaluating, the correct option turns green and a
-          // wrong pick turns red. Untouched options stay white.
-          let card = 'border-gray-300 bg-white'
+          // Text colour rides with the card: dark on the light accents, light on the
+          // neutral card in dark mode.
+          let card = 'border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100'
           if (evaluated) {
-            if (option.correct) card = 'border-[#9cc23e] bg-[#b6d957]'
-            else if (i === picked) card = 'border-[#e07272] bg-[#ef8a8a]'
+            if (option.correct) card = 'border-[#9cc23e] bg-[#b6d957] text-gray-900'
+            else if (i === picked) card = 'border-[#e07272] bg-[#ef8a8a] text-gray-900'
           }
 
           return (
@@ -63,12 +63,12 @@ export function SingleTask({ task, picked, evaluated, onChange }: Props) {
                 {String.fromCharCode(65 + i)}
               </span>
 
-              <span className="flex-1 text-[15px] leading-snug text-gray-900">
+              <span className="flex-1 text-[15px] leading-snug">
                 <Tex text={option.text} />
               </span>
 
               {evaluated && i === picked && (
-                <span className="shrink-0 text-[14px] font-bold text-gray-900">
+                <span className="shrink-0 text-[14px] font-bold">
                   {total.toFixed(2)} points
                 </span>
               )}
@@ -78,7 +78,7 @@ export function SingleTask({ task, picked, evaluated, onChange }: Props) {
       </div>
 
       {evaluated && (
-        <p className="mt-4 text-[14px] font-bold text-gray-900">Total: {total.toFixed(2)} points</p>
+        <p className="mt-4 text-[14px] font-bold text-gray-900 dark:text-gray-100">Total: {total.toFixed(2)} points</p>
       )}
     </div>
   )

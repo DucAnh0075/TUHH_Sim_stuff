@@ -25,19 +25,31 @@ meaningful. Run `npm run lint` before finishing changes.
 
 ## Architecture
 
-The app is a state machine held entirely in `ExamApp.tsx` (`src/components/ExamApp.tsx`) —
-there is no router, no global store, no backend. A `Session` object holds the chosen `Exam`,
-the current task index, and parallel arrays `answers` / `confirmed` / `done`. The whole
-session is persisted to `localStorage` on every change (except the Mixed Exam, which is
-never saved). Selecting an exam offers to resume stored progress.
+`src/App.tsx` is a module switch: it shows `ModuleSelect` and then mounts one of two
+self-contained modules under `src/modules/`. **Each module has its own `types.ts`,
+components and data — the two type systems are intentionally separate and share nothing but
+tiny presentational copies (`Tex`, `PromptBox`).** Truly global pieces stay at the top:
+`components/{ModuleSelect,ThemeToggle}.tsx` and `lib/theme.ts`.
 
-Data flow: `src/data/*.ts` (one file per exam + `common.ts` for shared phrasings) →
-`EXAMS` array in `src/data/index.ts` → `ExamApp` → `TaskView` dispatches on `task.kind` to
-one of five renderers in `src/components/tasks/`.
+- `src/modules/embedded/` — the Embedded Systems exam trainer (below).
+- `src/modules/graph/` — a flat Graph Theory quiz (`QuizApp`, tasks `'single'`/`'multi'`,
+  its own `types.ts` + `lib/shuffle.ts`, pool in `data/questions.ts`).
 
-### The type system is the spine — read `src/types.ts` first
+Paths below are relative to `src/modules/embedded/`.
 
-`src/types.ts` defines the data model **and** all scoring/grading logic in one file. Every
+The embedded app is a state machine held entirely in `components/ExamApp.tsx` — there is no
+router, no global store, no backend. A `Session` object holds the chosen `Exam`, the current
+task index, and parallel arrays `answers` / `confirmed` / `done`. The whole session is
+persisted to `localStorage` on every change (except the Mixed Exam, which is never saved).
+Selecting an exam offers to resume stored progress.
+
+Data flow: `data/*.ts` (one file per exam + `common.ts` for shared phrasings) →
+`EXAMS` array in `data/index.ts` → `ExamApp` → `TaskView` dispatches on `task.kind` to
+one of five renderers in `components/tasks/`.
+
+### The type system is the spine — read `modules/embedded/types.ts` first
+
+`types.ts` defines the data model **and** all scoring/grading logic in one file. Every
 exercise is a discriminated union `Task` on `kind`, paired with an `Answer` union on the
 same tag:
 
@@ -53,7 +65,7 @@ Key functions all live in `types.ts`: `emptyAnswer`, `isComplete`, `isStarted`,
 `scoreTask`, `fieldCorrect`, `gradeFor`, `conversionTable`. When adding a task kind or
 changing scoring, this is the file to edit — the renderers and `ExamApp` follow from it.
 
-### Conventions when editing exam data (`src/data/`)
+### Conventions when editing exam data (`modules/embedded/data/`)
 
 - Enter **only real exam content** from the reports. The README documents the data schema
   in detail; `common.ts` holds recurring phrasings.

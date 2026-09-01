@@ -38,7 +38,7 @@ export function MultiTask({ task, choices, evaluated, onChange }: Props) {
 
       <PromptBox prompt={task.prompt} extra={task.promptExtra} />
 
-      <p className="mt-4 mb-4 text-[14px] leading-snug text-gray-700 italic">
+      <p className="mt-4 mb-4 text-[14px] leading-snug text-gray-700 italic dark:text-gray-300">
         (Correct answer: 1 point, wrong answer: -1 point, skipped (?): 0 points. The subtask cannot score
         less than 0 points.)
       </p>
@@ -48,10 +48,12 @@ export function MultiTask({ task, choices, evaluated, onChange }: Props) {
           const points = perStatement[i]
           // Exam colour scheme: green = answered correctly, red = answered wrongly,
           // white = skipped ("?", 0 points).
-          let card = 'border-gray-300 bg-white'
+          // Text colour rides with the card: dark on the light accents, light on the
+          // neutral card in dark mode.
+          let card = 'border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100'
           if (evaluated) {
-            if (points > 0) card = 'border-[#9cc23e] bg-[#b6d957]'
-            else if (points < 0) card = 'border-[#e07272] bg-[#ef8a8a]'
+            if (points > 0) card = 'border-[#9cc23e] bg-[#b6d957] text-gray-900'
+            else if (points < 0) card = 'border-[#e07272] bg-[#ef8a8a] text-gray-900'
           }
 
           return (
@@ -59,7 +61,7 @@ export function MultiTask({ task, choices, evaluated, onChange }: Props) {
               key={i}
               className={`flex items-center gap-3 rounded-lg border-2 px-4 py-3 shadow-sm transition-colors ${card}`}
             >
-              <span className="w-4 shrink-0 text-[14px] font-bold text-gray-900">
+              <span className="w-4 shrink-0 text-[14px] font-bold">
                 {String.fromCharCode(65 + i)}
               </span>
 
@@ -90,12 +92,12 @@ export function MultiTask({ task, choices, evaluated, onChange }: Props) {
                 />
               </div>
 
-              <p className="flex-1 text-[15px] leading-snug text-gray-900">
+              <p className="flex-1 text-[15px] leading-snug">
                 <Tex text={statement.text} />
               </p>
 
               {evaluated && (
-                <span className="shrink-0 text-[14px] font-bold text-gray-900">
+                <span className="shrink-0 text-[14px] font-bold">
                   {points.toFixed(2)} points
                 </span>
               )}
@@ -105,7 +107,7 @@ export function MultiTask({ task, choices, evaluated, onChange }: Props) {
       </div>
 
       {evaluated && (
-        <p className="mt-4 text-[14px] font-bold text-gray-900">Total: {total.toFixed(2)} points</p>
+        <p className="mt-4 text-[14px] font-bold text-gray-900 dark:text-gray-100">Total: {total.toFixed(2)} points</p>
       )}
     </div>
   )
