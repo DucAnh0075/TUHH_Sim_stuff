@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { ModuleSelect, type ModuleId } from './components/ModuleSelect'
 import { ThemeToggle } from './components/ThemeToggle'
 import { ExamApp } from './modules/embedded/components/ExamApp'
-import { QuizApp } from './modules/graph/components/QuizApp'
+import { GraphApp } from './modules/graph/components/GraphApp'
 
 function App() {
   const [module, setModule] = useState<ModuleId | null>(null)
@@ -22,7 +22,7 @@ function App() {
 
       {module === null && <ModuleSelect onSelect={setModule} />}
       {module === 'embedded' && <ExamApp />}
-      {module === 'graph' && <QuizApp />}
+      {module === 'graph' && <GraphApp />}
     </>
   )
 }

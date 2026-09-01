@@ -1,14 +1,29 @@
 import { useState } from 'react'
-import { TASKS } from '../data/questions'
 import { shuffleTasks } from '../lib/shuffle'
-import type { Answer, Choice } from '../types'
+import type { Answer, Choice, Task } from '../types'
 import { emptyAnswer, isComplete, maxPoints, scoreTask } from '../types'
 import { MultiTask } from './MultiTask'
 import { SingleTask } from './SingleTask'
 import { Tex } from './Tex'
 
-export function QuizApp() {
-  const [tasks, setTasks] = useState(() => shuffleTasks(TASKS))
+type Props = {
+  /** The task set to run (a practice pool or an exam). */
+  tasks: Task[]
+  /** Heading shown above the quiz, e.g. the exam name. */
+  title: string
+  /** Practice pools are shuffled; exams keep their printed order. */
+  shuffle: boolean
+  /** Back to the graph selection screen. */
+  onLeave: () => void
+}
+
+/** Prepares the working set: shuffled for practice, verbatim for exams. */
+function prepare(tasks: Task[], shuffle: boolean): Task[] {
+  return shuffle ? shuffleTasks(tasks) : tasks
+}
+
+export function QuizApp({ tasks: source, title, shuffle, onLeave }: Props) {
+  const [tasks, setTasks] = useState(() => prepare(source, shuffle))
   const [index, setIndex] = useState(0)
   /** Answers of every task, so that they survive going back and forth. */
   const [answers, setAnswers] = useState<Answer[]>(() => tasks.map(emptyAnswer))
@@ -42,11 +57,11 @@ export function QuizApp() {
   }
 
   const restart = () => {
-    const shuffled = shuffleTasks(TASKS)
-    setTasks(shuffled)
+    const fresh = prepare(source, shuffle)
+    setTasks(fresh)
     setIndex(0)
-    setAnswers(shuffled.map(emptyAnswer))
-    setConfirmed(shuffled.map(() => false))
+    setAnswers(fresh.map(emptyAnswer))
+    setConfirmed(fresh.map(() => false))
     setFinished(false)
   }
 
@@ -106,6 +121,17 @@ export function QuizApp() {
 
   return (
     <Shell>
+      <div className="mb-4">
+        <button
+          type="button"
+          onClick={onLeave}
+          className="cursor-pointer text-[12px] text-gray-500 underline underline-offset-2 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
+        >
+          ← Zur Auswahl
+        </button>
+        <p className="mt-1 text-[16px] font-bold text-gray-900 dark:text-gray-100">{title}</p>
+      </div>
+
       <div className="mb-4 flex items-center justify-between text-[13px] text-gray-500 dark:text-gray-400">
         <span>
           Task {index + 1} of {tasks.length}

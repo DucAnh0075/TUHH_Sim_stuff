@@ -16,7 +16,15 @@ type TaskBase = {
   promptExtra?: string[]
   /** 'vips' marks practice questions without an official key (AI-derived answers). */
   source?: 'vips'
+  /**
+   * Which exam this question belongs to (id in GRAPH_EXAMS). Absent for VIPS practice
+   * questions and for the ungrouped 'Altfragen' pool.
+   */
+  exam?: string
 }
+
+/** One selectable exam in the Graph module, shown in GraphSelect. */
+export type GraphExam = { id: string; title: string; order: number }
 
 // ------------------------------------------------------------------- multiple choice
 
