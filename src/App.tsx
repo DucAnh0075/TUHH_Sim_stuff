@@ -1,11 +1,23 @@
 import { useState } from 'react'
 import { ModuleSelect, type ModuleId } from './components/ModuleSelect'
 import { ThemeToggle } from './components/ThemeToggle'
+import { useMouseNav } from './lib/mouseNav'
 import { EmbeddedApp } from './modules/embedded/components/EmbeddedApp'
 import { GraphApp } from './modules/graph/components/GraphApp'
 
 function App() {
   const [module, setModule] = useState<ModuleId | null>(null)
+  const [lastModule, setLastModule] = useState<ModuleId | null>(null)
+
+  const selectModule = (m: ModuleId) => {
+    setModule(m)
+    setLastModule(m)
+  }
+
+  useMouseNav(
+    module !== null ? () => setModule(null) : null,
+    module === null && lastModule !== null ? () => setModule(lastModule) : null,
+  )
 
   return (
     <>
@@ -20,9 +32,9 @@ function App() {
         </button>
       )}
 
-      {module === null && <ModuleSelect onSelect={setModule} />}
-      {module === 'embedded' && <EmbeddedApp />}
-      {module === 'graph' && <GraphApp />}
+      {module === null && <ModuleSelect onSelect={selectModule} />}
+      {module === 'embedded' && <EmbeddedApp onLeave={() => setModule(null)} />}
+      {module === 'graph' && <GraphApp onLeave={() => setModule(null)} />}
     </>
   )
 }

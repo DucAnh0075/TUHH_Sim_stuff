@@ -6,8 +6,8 @@
     "image of the PDFs; then add \"image\": <n> (embedded image index on that page)",
     "or \"rect\": [x, y, w, h] (fractions of the page, 0..1) to an entry to narrow",
     "it down. Without either, the whole page is exported.",
-    "Graph Theory exam figures use a 'gt-' exam prefix (gt-ws2021, gt-ss2021, gt-ss2023,",
-    "gt-ws2324, gt-mock2025) so they never collide with the Embedded module's ids above."
+    "Graph Theory exam figures use a 'gt-' exam prefix (gt-ws2021, gt-ss2021, gt-ws2223,",
+    "gt-ss2023, gt-ws2324, gt-ss2024, gt-ws2425, gt-ss2025, gt-mock2025) so they never collide with the Embedded module's ids above."
   ],
   "dpi": 150,
   "pdfs": {
@@ -19,7 +19,11 @@
     "gt-ws2021": "pdfs/gt-ws2021.pdf",
     "gt-ss2021": "pdfs/gt-ss2021.pdf",
     "gt-ss2023": "pdfs/gt-ss2023.pdf",
+    "gt-ws2223": "pdfs/gt-ws2223.pdf",
     "gt-ws2324": "pdfs/gt-ws2324.pdf",
+    "gt-ss2024": "pdfs/gt-ss2024.pdf",
+    "gt-ws2425": "pdfs/gt-ws2425.pdf",
+    "gt-ss2025": "pdfs/gt-ss2025.pdf",
     "gt-mock2025": "pdfs/gt-mock2025.pdf"
   },
   "figures": {
@@ -659,6 +663,416 @@
         0.1181,
         0.4323,
         0.2486
+      ]
+    },
+    "gt-ss2021/max-flow-min-cut": {
+      "page": 1,
+      "dpi": 220,
+      "rect": [
+        0.033,
+        0.113,
+        0.57,
+        0.19
+      ]
+    },
+    "gt-ss2021/max-flow-min-cut-solution": {
+      "page": 1,
+      "dpi": 220,
+      "rect": [
+        0.033,
+        0.393,
+        0.563,
+        0.188
+      ]
+    },
+    "gt-ss2021/floyd-warshall": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.12,
+        0.37,
+        0.25
+      ]
+    },
+    "gt-ss2021/tsp-backtrack": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.33,
+        0.28
+      ]
+    },
+    "gt-ss2021/lp-plot": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.27,
+        0.22,
+        0.42,
+        0.3
+      ]
+    },
+    "gt-ss2021/kruskal": {
+      "page": 11,
+      "dpi": 220,
+      "rect": [
+        0.033,
+        0.107,
+        0.27,
+        0.255
+      ]
+    },
+    "gt-ss2024/ff-network": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.0955,
+        0.4929,
+        0.1871
+      ]
+    },
+    "gt-ss2024/ff-min-cut": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.0326,
+        0.5016,
+        0.2484
+      ]
+    },
+    "gt-ss2024/floyd-warshall": {
+      "page": 4,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.0908,
+        0.2569,
+        0.2492
+      ]
+    },
+    "gt-ss2024/kruskal": {
+      "page": 6,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.1048,
+        0.3205,
+        0.2484
+      ]
+    },
+    "gt-ss2024/dfs": {
+      "page": 7,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.1048,
+        0.3853,
+        0.2484
+      ]
+    },
+    "gt-ss2024/lp-plot": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.2931,
+        0.2384,
+        0.3952,
+        0.2787
+      ]
+    },
+    "gt-ss2025/graph-parameter": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.37,
+        0.255
+      ]
+    },
+    "gt-ss2025/kruskal": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.34,
+        0.255
+      ]
+    },
+    "gt-ss2025/dijkstra": {
+      "page": 5,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.41,
+        0.255
+      ]
+    },
+    "gt-ss2025/lp-plot": {
+      "page": 6,
+      "dpi": 220,
+      "rect": [
+        0.275,
+        0.23,
+        0.43,
+        0.3
+      ]
+    },
+    "gt-ss2025/floyd-warshall": {
+      "page": 7,
+      "dpi": 220,
+      "rect": [
+        0.028,
+        0.092,
+        0.375,
+        0.262
+      ]
+    },
+    "gt-ss2025/ff-network": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.088,
+        0.5,
+        0.19
+      ]
+    },
+    "gt-ss2025/ff-min-cut": {
+      "page": 9,
+      "dpi": 220,
+      "rect": [
+        0.028,
+        0.03,
+        0.43,
+        0.245
+      ]
+    },
+    "gt-ws2425/ff-network": {
+      "page": 1,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.09,
+        0.5,
+        0.19
+      ]
+    },
+    "gt-ws2425/ff-min-cut": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.038,
+        0.57,
+        0.247
+      ]
+    },
+    "gt-ws2425/floyd-warshall": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.088,
+        0.41,
+        0.272
+      ]
+    },
+    "gt-ws2425/tsp-backtrack": {
+      "page": 4,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.105,
+        0.31,
+        0.205
+      ]
+    },
+    "gt-ws2425/kruskal": {
+      "page": 6,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.3,
+        0.26
+      ]
+    },
+    "gt-ws2425/dfs": {
+      "page": 7,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.55,
+        0.243
+      ]
+    },
+    "gt-ws2425/lp-plot": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.27,
+        0.22,
+        0.43,
+        0.3
+      ]
+    },
+    "gt-ws2223/mfmc-network": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.088,
+        0.73,
+        0.318
+      ]
+    },
+    "gt-ws2223/mfmc-residual-solution": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.035,
+        0.73,
+        0.35
+      ]
+    },
+    "gt-ws2223/mfmc-mincut-network": {
+      "page": 4,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.023,
+        0.9,
+        0.2
+      ]
+    },
+    "gt-ws2223/floyd-warshall": {
+      "page": 5,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.15,
+        0.37,
+        0.205
+      ]
+    },
+    "gt-ws2223/backtracking": {
+      "page": 6,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.105,
+        0.3,
+        0.19
+      ]
+    },
+    "gt-ws2223/kruskal": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.11,
+        0.55,
+        0.265
+      ]
+    },
+    "gt-ws2223/dfs": {
+      "page": 9,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.55,
+        0.2
+      ]
+    },
+    "gt-ws2223/lp-plot": {
+      "page": 10,
+      "dpi": 220,
+      "rect": [
+        0.27,
+        0.22,
+        0.43,
+        0.3
+      ]
+    },
+    "gt-ss2023/ff-network": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.088,
+        0.5,
+        0.19
+      ]
+    },
+    "gt-ss2023/ff-min-cut": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.052,
+        0.5,
+        0.235
+      ]
+    },
+    "gt-ss2023/floyd-warshall": {
+      "page": 4,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.093,
+        0.42,
+        0.255
+      ]
+    },
+    "gt-ss2023/tsp-backtrack": {
+      "page": 5,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.103,
+        0.32,
+        0.205
+      ]
+    },
+    "gt-ss2023/kruskal": {
+      "page": 7,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.5,
+        0.255
+      ]
+    },
+    "gt-ss2023/dfs": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.35,
+        0.255
+      ]
+    },
+    "gt-ss2023/lp-plot": {
+      "page": 9,
+      "dpi": 220,
+      "rect": [
+        0.26,
+        0.255,
+        0.44,
+        0.26
       ]
     }
   }

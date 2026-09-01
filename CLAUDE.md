@@ -119,7 +119,8 @@ screen per exercise, mirroring the printed Auswertungsbericht.
   are chosen to match the report layout.
 - Graph exam PDFs go in `pdfs/` with the `gt-*` names from `figures.manifest.json`
   (`gt-ws2021.pdf`, `gt-ss2021.pdf`, `gt-ss2023.pdf`, `gt-ws2324.pdf`,
-  `gt-mock2025.pdf`), same as the Embedded PDFs — one `npm run figures` command builds
-  both. `scripts/calibrate-figures.py` only touches the Embedded (non-`gt-`) entries and
-  preserves the Graph ones; Graph rects are hand-measured via
-  `npm run figures -- --inspect`.
+  `gt-ss2024.pdf`, `gt-ws2425.pdf`, `gt-ss2025.pdf`, `gt-mock2025.pdf`), same as the
+  Embedded PDFs — one
+  `npm run figures` command builds both. `scripts/calibrate-figures.py` only touches
+  the Embedded (non-`gt-`) entries and preserves the Graph ones; Graph rects are
+  hand-measured via `npm run figures -- --inspect`.
