@@ -62,31 +62,31 @@ export function GridTask({ task, cells, selfPoints, evaluated, onChange }: Props
               type="button"
               onClick={() => setBrush(i)}
               className={`cursor-pointer rounded border-2 px-3 py-1 font-semibold transition-colors ${
-                brush === i ? 'border-gray-800 bg-gray-800 text-white' : 'border-gray-300 text-gray-700 hover:border-gray-500'
+                brush === i ? 'border-gray-800 bg-gray-800 text-white' : 'border-gray-300 text-gray-700 hover:border-gray-500 dark:border-gray-700 dark:text-gray-300 dark:hover:border-gray-500'
               }`}
             >
               {state.label}
             </button>
           ))}
-          <span className="ml-1 text-gray-600">
+          <span className="ml-1 text-gray-600 dark:text-gray-400">
             Current selection: <strong>{task.states[brush].label}</strong>
           </span>
           <button
             type="button"
             onClick={reset}
-            className="ml-auto cursor-pointer text-gray-500 underline underline-offset-2 hover:text-gray-800"
+            className="ml-auto cursor-pointer text-gray-500 underline underline-offset-2 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200"
           >
             Zurücksetzen
           </button>
         </div>
       )}
 
-      <div className="flex flex-wrap items-center gap-4 text-[13px] text-gray-700">
+      <div className="flex flex-wrap items-center gap-4 text-[13px] text-gray-700 dark:text-gray-300">
         <span className="font-bold">Legend:</span>
         {task.states.map((state) => (
           <span key={state.label} className="flex items-center gap-1.5">
             <span
-              className="inline-block h-3.5 w-3.5 border border-gray-400"
+              className="inline-block h-3.5 w-3.5 border border-gray-400 dark:border-gray-500"
               style={{ background: state.color }}
             />
             {state.label}
@@ -113,7 +113,7 @@ function TaskTable({ table }: { table: NonNullable<GridTaskType['table']> }) {
       <thead>
         <tr>
           {table.headers.map((header) => (
-            <th key={header} className="border border-gray-400 px-3 py-1 font-bold text-gray-900">
+            <th key={header} className="border border-gray-400 px-3 py-1 font-bold text-gray-900 dark:border-gray-600 dark:text-gray-100">
               {header}
             </th>
           ))}
@@ -123,7 +123,7 @@ function TaskTable({ table }: { table: NonNullable<GridTaskType['table']> }) {
         {table.rows.map((row, i) => (
           <tr key={i}>
             {row.map((cell, j) => (
-              <td key={j} className="border border-gray-400 px-3 py-1 text-center whitespace-nowrap text-gray-900">
+              <td key={j} className="border border-gray-400 px-3 py-1 text-center whitespace-nowrap text-gray-900 dark:border-gray-600 dark:text-gray-100">
                 {cell}
               </td>
             ))}
@@ -182,7 +182,7 @@ function GanttGrid({ task, cells, evaluated, painting, setPainting, paint }: Gan
         <div className="flex">
           <div className="w-9 shrink-0" />
           {task.cols.map((label) => (
-            <div key={label} className="w-[22px] shrink-0 text-center text-[10px] text-gray-900">
+            <div key={label} className="w-[22px] shrink-0 text-center text-[10px] text-gray-900 dark:text-gray-100">
               {label}
             </div>
           ))}
@@ -316,7 +316,7 @@ function SelfCheck({ task, selfPoints, onScore }: SelfCheckProps) {
 /** Exported for the prompt of scheduling tasks, which mixes KaTeX into the notes. */
 export function GridNote({ text }: { text: string }) {
   return (
-    <p className="text-[14px] leading-snug text-gray-700">
+    <p className="text-[14px] leading-snug text-gray-700 dark:text-gray-300">
       <Tex text={text} />
     </p>
   )

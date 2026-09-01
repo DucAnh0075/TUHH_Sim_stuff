@@ -1,9 +1,17 @@
 @import "tailwindcss";
 @import "katex/dist/katex.min.css";
 
+/* Dark mode is toggled by a `.dark` class on <html>, not by the OS media query. */
+@custom-variant dark (&:where(.dark, .dark *));
+
 html,
 body {
   margin: 0;
   background: #ffffff;
   font-family: system-ui, "Segoe UI", Roboto, sans-serif;
+}
+
+html.dark,
+html.dark body {
+  background: #0f1216;
 }

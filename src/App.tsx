@@ -1,7 +1,13 @@
 import { ExamApp } from './components/ExamApp'
+import { ThemeToggle } from './components/ThemeToggle'
 
 function App() {
-  return <ExamApp />
+  return (
+    <>
+      <ThemeToggle />
+      <ExamApp />
+    </>
+  )
 }
 
 export default App

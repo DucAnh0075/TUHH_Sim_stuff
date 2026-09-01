@@ -55,8 +55,10 @@ function Input({
   width = 'w-28',
 }: LayoutProps & { index: number; width?: string }) {
   const correct = evaluated && fieldPoints(task, index, values[index]) > 0
+  // Only the empty (unevaluated) input flips to a dark field; the evaluated states
+  // are light accent cells that keep dark text in both modes.
   const tone = !evaluated
-    ? 'border-gray-400 bg-white'
+    ? 'border-gray-400 bg-white dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100'
     : correct
       ? 'border-[#9cc23e] bg-[#b6d957]'
       : 'border-[#e07272] bg-[#ef8a8a]'
@@ -67,7 +69,7 @@ function Input({
       value={values[index]}
       disabled={evaluated}
       onChange={(event) => set(index, event.target.value)}
-      className={`${width} rounded border-2 px-1.5 py-0.5 font-mono text-[13px] text-gray-900 focus:border-gray-800 focus:outline-none disabled:cursor-default ${tone}`}
+      className={`${width} rounded border-2 px-1.5 py-0.5 font-mono text-[13px] text-gray-900 focus:border-gray-800 focus:outline-none disabled:cursor-default dark:focus:border-gray-400 ${tone}`}
     />
   )
 }
@@ -166,13 +168,13 @@ function SingleLayout({ task, values, evaluated, set }: LayoutProps) {
     <div className="flex flex-col gap-2">
       {task.fields.map((field, i) => (
         <div key={field.id} className="flex flex-wrap items-center gap-2">
-          <span className="text-[14px] text-gray-900">
+          <span className="text-[14px] text-gray-900 dark:text-gray-100">
             <Tex text={field.label ?? ''} />
           </span>
           <Input task={task} values={values} evaluated={evaluated} set={set} index={i} width="w-40" />
-          {field.unit && <span className="text-[14px] text-gray-900">{field.unit}</span>}
+          {field.unit && <span className="text-[14px] text-gray-900 dark:text-gray-100">{field.unit}</span>}
           {evaluated && (
-            <span className="text-[14px] text-gray-900">
+            <span className="text-[14px] text-gray-900 dark:text-gray-100">
               <strong>Solution:</strong> {field.expected} {field.unit} · {points(task, i, values)}
             </span>
           )}
@@ -236,7 +238,7 @@ function CacheLayout({ task, values, evaluated, set }: LayoutProps) {
   return (
     <div className="flex flex-col gap-4">
       <div>
-        <p className="mb-1 text-[14px] text-gray-900">Before the control flow join:</p>
+        <p className="mb-1 text-[14px] text-gray-900 dark:text-gray-100">Before the control flow join:</p>
         <table className="border-separate border-spacing-0 text-[13px]">
           <thead>
             <tr>
@@ -266,7 +268,7 @@ function CacheLayout({ task, values, evaluated, set }: LayoutProps) {
       </div>
 
       <div>
-        <p className="mb-1 text-[14px] text-gray-900">After the control flow join:</p>
+        <p className="mb-1 text-[14px] text-gray-900 dark:text-gray-100">After the control flow join:</p>
         <table className="w-full border-separate border-spacing-0 text-[13px]">
           <thead>
             <tr>

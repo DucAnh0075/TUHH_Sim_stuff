@@ -20,13 +20,13 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
   if (task.optionsFigure) {
     return (
       <div className="flex flex-col gap-4">
-        <Figure id={task.optionsFigure} className="mx-auto block border border-gray-200" />
+        <Figure id={task.optionsFigure} className="mx-auto block border border-gray-200 dark:border-gray-700" />
         <div className="flex flex-wrap items-center gap-2">
-          <span className="text-[14px] font-bold text-gray-900">Antwort:</span>
+          <span className="text-[14px] font-bold text-gray-900 dark:text-gray-100">Antwort:</span>
           {task.options.map((_, i) => {
             const isPicked = picked === i
             const isCorrect = task.correct === i
-            let tone = 'border-gray-400 bg-white text-gray-800 hover:border-gray-700'
+            let tone = 'border-gray-400 bg-white text-gray-800 hover:border-gray-700 dark:border-gray-600 dark:bg-gray-800 dark:text-gray-200 dark:hover:border-gray-400'
             if (isPicked) tone = 'border-gray-800 bg-gray-800 text-white'
             if (evaluated) {
               if (isCorrect) tone = 'border-[#9cc23e] bg-[#b6d957] text-gray-900'
@@ -47,7 +47,7 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
             )
           })}
           {evaluated && picked === task.correct && (
-            <span className="text-[14px] font-bold text-gray-900">{task.points} Punkte</span>
+            <span className="text-[14px] font-bold text-gray-900 dark:text-gray-100">{task.points} Punkte</span>
           )}
         </div>
       </div>
@@ -60,11 +60,13 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
         const isPicked = picked === i
         const isCorrect = task.correct === i
         // The report highlights only the picked option: green when right, red when wrong.
-        let card = 'border-gray-300 bg-white'
+        // Text colour rides with the card: dark on the light accents, light on the
+        // neutral card in dark mode. The letter circle inherits it via border-current.
+        let card = 'border-gray-300 bg-white text-gray-900 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100'
         if (evaluated) {
-          if (isPicked && isCorrect) card = 'border-[#9cc23e] bg-[#b6d957]'
-          else if (isPicked) card = 'border-[#e07272] bg-[#ef8a8a]'
-          else if (isCorrect) card = 'border-[#9cc23e] bg-[#eaf5cf]'
+          if (isPicked && isCorrect) card = 'border-[#9cc23e] bg-[#b6d957] text-gray-900'
+          else if (isPicked) card = 'border-[#e07272] bg-[#ef8a8a] text-gray-900'
+          else if (isCorrect) card = 'border-[#9cc23e] bg-[#eaf5cf] text-gray-900'
         }
 
         return (
@@ -78,8 +80,8 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
             }`}
           >
             <span
-              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-gray-800 text-[13px] font-bold ${
-                isPicked ? 'bg-gray-800 text-white' : 'text-gray-800'
+              className={`flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 text-[13px] font-bold ${
+                isPicked ? 'border-gray-800 bg-gray-800 text-white' : 'border-current'
               }`}
             >
               {String.fromCharCode(65 + i)}
@@ -87,7 +89,7 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
 
             <span className="flex-1">
               {option.text && (
-                <span className="block font-mono text-[12px] leading-snug break-all text-gray-900">
+                <span className="block font-mono text-[12px] leading-snug break-all">
                   {option.text}
                 </span>
               )}
@@ -95,7 +97,7 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
             </span>
 
             {evaluated && isPicked && isCorrect && (
-              <span className="shrink-0 text-[14px] font-bold text-gray-900">{task.points} Punkte</span>
+              <span className="shrink-0 text-[14px] font-bold">{task.points} Punkte</span>
             )}
           </button>
         )
@@ -107,7 +109,7 @@ export function ChoiceTask({ task, picked, evaluated, onChange }: Props) {
 /** Small helper so the prompt of the C/E Net task can carry KaTeX. */
 export function ChoiceHint({ text }: { text: string }) {
   return (
-    <p className="mb-4 text-[14px] leading-snug text-gray-700">
+    <p className="mb-4 text-[14px] leading-snug text-gray-700 dark:text-gray-300">
       <Tex text={text} />
     </p>
   )

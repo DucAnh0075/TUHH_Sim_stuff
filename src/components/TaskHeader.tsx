@@ -11,8 +11,8 @@ type Props = {
 export function TaskHeader({ title, scored, max }: Props) {
   return (
     <div className="mb-4 flex items-baseline justify-between gap-4">
-      <h2 className="text-[26px] font-bold text-gray-900">{title}</h2>
-      <span className="shrink-0 text-[26px] font-bold text-gray-900">
+      <h2 className="text-[26px] font-bold text-gray-900 dark:text-gray-100">{title}</h2>
+      <span className="shrink-0 text-[26px] font-bold text-gray-900 dark:text-gray-100">
         {scored === null ? '–' : formatPoints(scored)} / {max} Punkte
       </span>
     </div>

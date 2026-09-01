@@ -28,7 +28,7 @@ export function TaskView({ task, answer, evaluated, onChange }: Props) {
 
       <PromptBox prompt={task.prompt} extra={task.promptExtra} />
 
-      {task.note && <p className="mt-4 text-[14px] leading-snug text-gray-700">{task.note}</p>}
+      {task.note && <p className="mt-4 text-[14px] leading-snug text-gray-700 dark:text-gray-300">{task.note}</p>}
 
       {task.figure && (
         <div className="my-5 flex justify-center">
@@ -41,7 +41,7 @@ export function TaskView({ task, answer, evaluated, onChange }: Props) {
       </div>
 
       {evaluated && scored !== null && (
-        <p className="mt-4 text-[14px] font-bold text-gray-900">Total: {scored.toFixed(2)} Punkte</p>
+        <p className="mt-4 text-[14px] font-bold text-gray-900 dark:text-gray-100">Total: {scored.toFixed(2)} Punkte</p>
       )}
     </div>
   )

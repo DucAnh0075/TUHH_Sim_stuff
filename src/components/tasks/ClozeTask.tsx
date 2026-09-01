@@ -30,13 +30,13 @@ export function ClozeTask({ task, picks, evaluated, onChange }: Props) {
   }
 
   return (
-    <ol className="flex flex-col gap-4 border-t border-gray-300 pt-4">
+    <ol className="flex flex-col gap-4 border-t border-gray-300 pt-4 dark:border-gray-700">
       {task.items.map((item, i) => {
         const segments = item.text.split('{}')
         const points = gapPoints(task, i, picks[i])
 
         return (
-          <li key={i} className="flex gap-2 font-mono text-[14px] leading-7 text-gray-900">
+          <li key={i} className="flex gap-2 font-mono text-[14px] leading-7 text-gray-900 dark:text-gray-100">
             <span className="shrink-0">{i + 1}.</span>
             <p className="flex-1">
               {segments.map((segment, s) => (
@@ -57,7 +57,7 @@ export function ClozeTask({ task, picks, evaluated, onChange }: Props) {
                       <select
                         value={picks[i] ?? ''}
                         onChange={(event) => pick(i, event.target.value)}
-                        className="mx-1 max-w-[15rem] rounded border-2 border-gray-400 bg-white px-1.5 py-0.5 align-middle font-mono text-[14px] text-gray-900 hover:border-gray-600 focus:border-gray-800 focus:outline-none"
+                        className="mx-1 max-w-[15rem] rounded border-2 border-gray-400 bg-white px-1.5 py-0.5 align-middle font-mono text-[14px] text-gray-900 hover:border-gray-600 focus:border-gray-800 focus:outline-none dark:border-gray-600 dark:bg-gray-800 dark:text-gray-100 dark:hover:border-gray-500 dark:focus:border-gray-400"
                       >
                         <option value="">– select –</option>
                         {pool.map((word) => (

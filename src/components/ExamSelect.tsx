@@ -10,8 +10,8 @@ type Props = {
 export function ExamSelect({ onStart }: Props) {
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="text-[32px] font-bold text-gray-900">Embedded Systems</h1>
-      <p className="mt-2 mb-8 text-[15px] text-gray-600">
+      <h1 className="text-[32px] font-bold text-gray-900 dark:text-gray-100">Embedded Systems</h1>
+      <p className="mt-2 mb-8 text-[15px] text-gray-600 dark:text-gray-400">
         Wähle eine Klausur. Alle Aufgaben stammen wörtlich aus den Auswertungsberichten von
         Prof. Dr. Heiko Falk.
       </p>
@@ -26,11 +26,11 @@ export function ExamSelect({ onStart }: Props) {
               key={exam.id}
               type="button"
               onClick={() => onStart(exam.id as ExamId)}
-              className="cursor-pointer rounded-lg border-2 border-gray-300 bg-white px-5 py-4 text-left shadow-sm transition-colors hover:border-gray-500"
+              className="cursor-pointer rounded-lg border-2 border-gray-300 bg-white px-5 py-4 text-left shadow-sm transition-colors hover:border-gray-500 dark:border-gray-700 dark:bg-gray-900 dark:hover:border-gray-500"
             >
               <div className="flex items-baseline justify-between gap-4">
-                <span className="text-[19px] font-bold text-gray-900">{exam.term}</span>
-                <span className="shrink-0 text-[13px] font-semibold text-gray-500">
+                <span className="text-[19px] font-bold text-gray-900 dark:text-gray-100">{exam.term}</span>
+                <span className="shrink-0 text-[13px] font-semibold text-gray-500 dark:text-gray-400">
                   {exam.tasks.length} Aufgaben · {exam.totalPoints} Punkte
                 </span>
               </div>
@@ -46,7 +46,7 @@ export function ExamSelect({ onStart }: Props) {
         <button
           type="button"
           onClick={() => onStart('mixed')}
-          className="cursor-pointer rounded-lg border-2 border-gray-800 bg-gray-900 px-5 py-4 text-left shadow-sm transition-colors hover:bg-gray-700"
+          className="cursor-pointer rounded-lg border-2 border-gray-800 bg-gray-900 px-5 py-4 text-left shadow-sm transition-colors hover:bg-gray-700 dark:border-gray-600"
         >
           <div className="flex items-baseline justify-between gap-4">
             <span className="text-[19px] font-bold text-white">Mixed Exam</span>
