@@ -103,3 +103,32 @@ Die Multiple-Choice-Aufgabe von **Winter 2022** wertet „A tight WCET estimate 
 $WCET_{EST} \geq WCET$" als **falsch**, während der Cloze der Klausur **Winter 2024/25** genau
 `WCET_EST >= WCET` als **richtige** Lösung verlangt. Beides steht so in den jeweiligen Berichten und
 bleibt deshalb unverändert — siehe die Kommentare in `src/data/ws2122.ts` und `src/data/ws2425.ts`.
+
+## Zweites Modul: Graphentheorie
+
+Neben dem Embedded-Modul enthält die App unter `src/modules/graph/` ein zweites, komplett getrenntes
+Modul für die Graphentheorie-und-Optimierung-Klausuren (Prof. Taraz). Es hat zwei Teile:
+
+- **Multiple Choice** — ein flacher Fragenpool (`src/modules/graph/data/questions.ts`), gemischt
+  abgefragt, eine Frage pro Bildschirm.
+- **Klausuren** — GTOP-Altklausuren als Trainer, eine Aufgabe pro Bildschirm, mit Sidebar,
+  gespeichertem Fortschritt und Notenschlüssel wie im Embedded-Modul.
+
+Eine Klausuraufgabe (`ExamTask` in `src/modules/graph/types.ts`) ist zusammengesetzt aus mehreren
+`Part`s, weil ein GTOP-Aufgabenblock im Bericht selten nur einen Antworttyp hat:
+
+- `fields` — Zahlen-/Textfelder (Restnetzwerk-Kanten, `d^k_{i,j}`, Kruskal-Werte, …)
+- `single` — genau eine richtige Option
+- `multi` — Aussagen A–J mit `?`/`✓`/`✗`, negative Bewertung, pro Aufgabenteil auf 0 gedeckelt
+- `order` — Bausteine in die richtige Reihenfolge bringen (Landau-Notation, Beweispuzzle, Reduktion,
+  Pseudocode), mit Distraktoren und Strafpunkten pro falscher Position
+- `open` — selbstbewerteter offener Teil (gezeichnete Lösungen, schriftliche Beweise); `noKey: true`
+  markiert einen Teil, zu dem der Bericht gar keine Lösung abdruckt
+- `info` — Zwischentext/Formel/Abbildung ohne eigene Punkte
+
+Fehlt ein Antwortschlüssel im Bericht, aber ist er aus Abbildung/Aufgabe eindeutig berechenbar, wird
+er berechnet und mit `derived: true` markiert (kleines Badge) — nie einfach weggelassen, weil das die
+Aufgabensumme und damit den Notenschlüssel verschieben würde.
+
+Die Klausur-PDFs liegen unter `pdfs/gt-*.pdf` (siehe `figures.manifest.json`) und laufen über
+dasselbe `npm run figures` wie die Embedded-Abbildungen, nur mit `gt-`-Präfix im Figure-Namespace.

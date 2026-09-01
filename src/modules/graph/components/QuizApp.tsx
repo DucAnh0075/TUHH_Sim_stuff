@@ -3,6 +3,7 @@ import { shuffleTasks } from '../lib/shuffle'
 import type { Answer, Choice, Task } from '../types'
 import { emptyAnswer, isComplete, maxPoints, scoreTask } from '../types'
 import { MultiTask } from './MultiTask'
+import { OpenTask } from './OpenTask'
 import { SingleTask } from './SingleTask'
 import { Tex } from './Tex'
 
@@ -139,19 +140,28 @@ export function QuizApp({ tasks: source, title, shuffle, onLeave }: Props) {
         <span>So far: {totalScored.toFixed(2)} points</span>
       </div>
 
-      {task.kind === 'single' ? (
+      {task.kind === 'single' && (
         <SingleTask
           task={task}
           picked={answer.kind === 'single' ? answer.picked : null}
           evaluated={evaluated}
           onChange={(picked) => setAnswer({ kind: 'single', picked })}
         />
-      ) : (
+      )}
+      {task.kind === 'multi' && (
         <MultiTask
           task={task}
           choices={answer.kind === 'multi' ? answer.choices : []}
           evaluated={evaluated}
           onChange={(choices: (Choice | null)[]) => setAnswer({ kind: 'multi', choices })}
+        />
+      )}
+      {task.kind === 'open' && (
+        <OpenTask
+          task={task}
+          selfPoints={answer.kind === 'open' ? answer.selfPoints : null}
+          evaluated={evaluated}
+          onChange={(selfPoints) => setAnswer({ kind: 'open', selfPoints })}
         />
       )}
 

@@ -1,20 +1,25 @@
 import { useState } from 'react'
-import { GraphSelect, type Selection } from './GraphSelect'
+import { MC_PROBLEMS } from '../data'
+import { GraphExamApp } from './exam/GraphExamApp'
+import { GraphSelect, type GraphView } from './GraphSelect'
 import { QuizApp } from './QuizApp'
 
-/** Root of the Graph module: pick a task set, then run the quiz. */
+/** Root of the Graph module: the landing page, then either the MC pool or the exam trainer. */
 export function GraphApp() {
-  const [selection, setSelection] = useState<Selection | null>(null)
+  const [view, setView] = useState<GraphView | null>(null)
 
-  if (!selection) return <GraphSelect onSelect={setSelection} />
+  if (view === null) return <GraphSelect onSelect={setView} />
 
-  return (
-    <QuizApp
-      key={selection.title}
-      tasks={selection.tasks}
-      title={selection.title}
-      shuffle={selection.shuffle}
-      onLeave={() => setSelection(null)}
-    />
-  )
+  if (view === 'mc') {
+    return (
+      <QuizApp
+        tasks={MC_PROBLEMS}
+        title="Multiple Choice Problems"
+        shuffle
+        onLeave={() => setView(null)}
+      />
+    )
+  }
+
+  return <GraphExamApp onLeave={() => setView(null)} />
 }

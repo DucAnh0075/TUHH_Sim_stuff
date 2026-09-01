@@ -26,5 +26,4 @@ dist-ssr
 # Die Klausur-PDFs sind persönliche Auswertungsberichte und bleiben lokal.
 # Die Abbildungen werden daraus mit `npm run figures` erzeugt.
 pdfs/*.pdf
-public/figures/*/   
 

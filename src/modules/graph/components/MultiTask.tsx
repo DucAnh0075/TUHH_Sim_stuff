@@ -1,5 +1,6 @@
 import type { Choice, MultiTask as MultiTaskType } from '../types'
 import { maxPoints, scoreTask, statementPoints } from '../types'
+import { ChoiceButton } from './ChoiceButton'
 import { PromptBox } from './PromptBox'
 import { TaskHeader } from './TaskHeader'
 import { Tex } from './Tex'
@@ -110,42 +111,5 @@ export function MultiTask({ task, choices, evaluated, onChange }: Props) {
         <p className="mt-4 text-[14px] font-bold text-gray-900 dark:text-gray-100">Total: {total.toFixed(2)} points</p>
       )}
     </div>
-  )
-}
-
-type ChoiceButtonProps = {
-  label: string
-  title: string
-  tone: Choice
-  active: boolean
-  disabled: boolean
-  onClick: () => void
-}
-
-const TONES: Record<Choice, string> = {
-  skip: 'text-gray-700',
-  true: 'text-green-700',
-  false: 'text-red-700',
-}
-
-const ACTIVE_TONES: Record<Choice, string> = {
-  skip: 'bg-amber-200 text-gray-900',
-  true: 'bg-[#9cc23e] text-white',
-  false: 'bg-[#e07272] text-white',
-}
-
-function ChoiceButton({ label, title, tone, active, disabled, onClick }: ChoiceButtonProps) {
-  return (
-    <button
-      type="button"
-      title={title}
-      disabled={disabled}
-      onClick={onClick}
-      className={`flex h-7 w-7 items-center justify-center rounded-full border-2 border-gray-800 text-[13px] font-bold transition-transform ${
-        active ? ACTIVE_TONES[tone] : `bg-white ${TONES[tone]}`
-      } ${disabled ? 'cursor-default' : 'cursor-pointer hover:scale-110'}`}
-    >
-      {label}
-    </button>
   )
 }

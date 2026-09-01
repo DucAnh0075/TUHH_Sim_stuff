@@ -5,6 +5,7 @@
  *   npm run figures              extract everything listed in figures.manifest.json
  *   npm run figures -- --inspect dump every page and every embedded image so the
  *                                manifest entries can be narrowed down
+ *   npm run figures -- --only gt-ss2023/   only (re-)extract ids starting with this prefix
  *
  * Needs poppler-utils (pdftoppm, pdfimages), which ships with most distributions.
  */
@@ -16,6 +17,8 @@ import { fileURLToPath } from 'node:url'
 const root = resolve(dirname(fileURLToPath(import.meta.url)), '..')
 const manifest = JSON.parse(readFileSync(join(root, 'figures.manifest.json'), 'utf8'))
 const inspect = process.argv.includes('--inspect')
+const onlyIndex = process.argv.indexOf('--only')
+const only = onlyIndex !== -1 ? process.argv[onlyIndex + 1] : undefined
 const outRoot = join(root, 'public', 'figures')
 
 function run(cmd, args) {
@@ -34,14 +37,15 @@ function requireTools() {
 }
 
 /** Renders one page (optionally a fractional rectangle of it) to `target`. */
-function renderPage(pdf, page, target, rect) {
-  const args = ['-png', '-r', String(manifest.dpi ?? 150), '-f', String(page), '-l', String(page)]
+function renderPage(pdf, page, target, rect, dpi = manifest.dpi ?? 150) {
+  const args = ['-png', '-r', String(dpi), '-f', String(page), '-l', String(page)]
 
   if (rect) {
     // pdftoppm crops in pixels of the rendered page, so the page size is needed.
+    // Uses the same `dpi` as the -r argument above - a mismatch here would silently
+    // crop the wrong region.
     const info = run('pdfinfo', ['-f', String(page), '-l', String(page), pdf])
     const size = /Page\s+\d+\s+size:\s+([\d.]+) x ([\d.]+)/.exec(info)
-    const dpi = manifest.dpi ?? 150
     const width = Math.round((Number(size?.[1] ?? 595) / 72) * dpi)
     const height = Math.round((Number(size?.[2] ?? 842) / 72) * dpi)
     const [x, y, w, h] = rect
@@ -66,10 +70,11 @@ function renderPage(pdf, page, target, rect) {
 /**
  * Extracts the n-th real embedded image of a page. Besides the diagrams the reports
  * embed 1x1 fillers, the white card backgrounds (about 1076x868) and sometimes a
- * full-page scan, so only images between 100 and 700 pixels in both directions count
- * - that is the size range of the arrival curve plots in every report.
+ * full-page scan, so only images within `manifest.imageSize` (in both directions)
+ * count - the default [100, 700] is the size range of the ES arrival curve plots.
  */
 function extractEmbedded(pdf, page, index, target) {
+  const [imgMin, imgMax] = manifest.imageSize ?? [100, 700]
   const listing = run('pdfimages', ['-list', '-f', String(page), '-l', String(page), pdf])
   const sizes = listing
     .split('\n')
@@ -80,7 +85,7 @@ function extractEmbedded(pdf, page, index, target) {
 
   const wantedPosition = sizes
     .map((size, i) => ({ ...size, i }))
-    .filter((s) => s.width >= 100 && s.width <= 700 && s.height >= 100 && s.height <= 700)[index]
+    .filter((s) => s.width >= imgMin && s.width <= imgMax && s.height >= imgMin && s.height <= imgMax)[index]
 
   if (!wantedPosition) return false
 
@@ -127,6 +132,8 @@ function build() {
   let skipped = 0
 
   for (const [id, spec] of Object.entries(manifest.figures)) {
+    if (only && !id.startsWith(only)) continue
+
     const [exam, name] = id.split('/')
     const pdf = join(root, manifest.pdfs[exam] ?? '')
     if (!existsSync(pdf)) {
@@ -137,13 +144,14 @@ function build() {
     const dir = join(outRoot, exam)
     mkdirSync(dir, { recursive: true })
     const target = join(dir, `${name}.png`)
+    const dpi = spec.dpi ?? manifest.dpi ?? 150
 
     try {
       if (spec.image !== undefined && extractEmbedded(pdf, spec.page, spec.image, target)) {
         written++
         continue
       }
-      renderPage(pdf, spec.page, target, spec.rect)
+      renderPage(pdf, spec.page, target, spec.rect, dpi)
       written++
     } catch (error) {
       console.error(`! ${id}: ${error.message}`)

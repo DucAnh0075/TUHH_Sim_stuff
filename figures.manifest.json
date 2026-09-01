@@ -5,7 +5,9 @@
     "Run 'npm run figures -- --inspect' to dump every page and every embedded",
     "image of the PDFs; then add \"image\": <n> (embedded image index on that page)",
     "or \"rect\": [x, y, w, h] (fractions of the page, 0..1) to an entry to narrow",
-    "it down. Without either, the whole page is exported."
+    "it down. Without either, the whole page is exported.",
+    "Graph Theory exam figures use a 'gt-' exam prefix (gt-ws2021, gt-ss2021, gt-ss2023,",
+    "gt-ws2324, gt-mock2025) so they never collide with the Embedded module's ids above."
   ],
   "dpi": 150,
   "pdfs": {
@@ -13,7 +15,12 @@
     "ss2022": "pdfs/ss2022.pdf",
     "ss2023": "pdfs/ss2023.pdf",
     "ss2024": "pdfs/ss2024.pdf",
-    "ws2425": "pdfs/ws2425.pdf"
+    "ws2425": "pdfs/ws2425.pdf",
+    "gt-ws2021": "pdfs/gt-ws2021.pdf",
+    "gt-ss2021": "pdfs/gt-ss2021.pdf",
+    "gt-ss2023": "pdfs/gt-ss2023.pdf",
+    "gt-ws2324": "pdfs/gt-ws2324.pdf",
+    "gt-mock2025": "pdfs/gt-mock2025.pdf"
   },
   "figures": {
     "ss2022/adc1": {
@@ -602,6 +609,56 @@
         0.1382,
         0.8013,
         0.5225
+      ]
+    },
+    "gt-ws2021/floyd-warshall": {
+      "page": 1,
+      "dpi": 220,
+      "rect": [
+        0.0385,
+        0.1445,
+        0.3542,
+        0.2479
+      ]
+    },
+    "gt-ws2021/max-flow-min-cut": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.0385,
+        0.122,
+        0.6106,
+        0.1849
+      ]
+    },
+    "gt-ws2021/max-flow-min-cut-solution": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.0385,
+        0.3901,
+        0.6106,
+        0.1865
+      ]
+    },
+    "gt-ws2021/simplex-sketch": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.286,
+        0.2331,
+        0.396,
+        0.2797
+      ]
+    },
+    "gt-ws2021/tsp-backtrack": {
+      "page": 5,
+      "dpi": 220,
+      "rect": [
+        0.0385,
+        0.1181,
+        0.4323,
+        0.2486
       ]
     }
   }

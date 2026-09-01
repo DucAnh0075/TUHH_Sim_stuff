@@ -32,8 +32,9 @@ tiny presentational copies (`Tex`, `PromptBox`).** Truly global pieces stay at t
 `components/{ModuleSelect,ThemeToggle}.tsx` and `lib/theme.ts`.
 
 - `src/modules/embedded/` — the Embedded Systems exam trainer (below).
-- `src/modules/graph/` — a flat Graph Theory quiz (`QuizApp`, tasks `'single'`/`'multi'`,
-  its own `types.ts` + `lib/shuffle.ts`, pool in `data/questions.ts`).
+- `src/modules/graph/` — Graph Theory: a flat Multiple Choice pool (`QuizApp`, tasks
+  `'multi'`/`'single'`/`'open'`, pool in `data/questions.ts`) **and** a GTOP exam trainer
+  (`GraphExamApp`, one screen per exercise, `data/exams/`) — see below.
 
 Paths below are relative to `src/modules/embedded/`.
 
@@ -86,8 +87,39 @@ figure id (e.g. `ss2023/statechart`) to a page + `rect` (page fractions) or embe
 `public/figures/`. Rects are computed, not hand-measured, by
 `scripts/calibrate-figures.py` (Python, needs Pillow + numpy) after a PDF changes.
 
+### Graph Theory exam trainer (`src/modules/graph/`)
+
+`types.ts` has two disjoint halves (see the file's header comment): the Multiple Choice
+pool (`Task` = `'multi'` | `'single'` | `'open'`, run by `QuizApp`) and the exam trainer
+(`GraphExam` > `ExamTask` > `Part`, run by `GraphExamApp`). They share nothing — a pool
+`Task` is always one question; an `ExamTask` is composite, one exam exercise made of
+several heterogeneous `Part`s (`fields`/`single`/`multi`/`order`/`open`/`info`), one
+screen per exercise, mirroring the printed Auswertungsbericht.
+
+- `emptyExamAnswer`, `isExamComplete`, `isExamSelfGraded`, `scoreExamTask`,
+  `validateExam` live in `types.ts` next to the pool's equivalents. `GRADE_STEPS`/
+  `conversionTable`/`gradeFor` are **copied**, not imported, from the Embedded module.
+- `GraphExamApp` mirrors `embedded/components/ExamApp.tsx` (sidebar, localStorage
+  persistence, result view with a Notenschlüssel) but persists under the
+  `gt-exam-trainer:*` key prefix (`lib/storage.ts`), never `es-exam-trainer:*`.
+- Answer-key policy for a Klausur subtask: printed key → use it; no key printed but
+  computable → `derived: true`; no key at all (e.g. the Mock Exam) → an `open` part with
+  `noKey: true` and the printed points, never simply omitted (that would shift the
+  exercise's total and the grade table).
+- Exam figures share `public/figures/` with the Embedded module's, namespaced with a
+  `gt-` exam prefix (`gt-ss2023/ff-network`) so the two never collide — see below.
+- There is no test runner; `validateExam(exam)` is the safety net for transcription
+  errors (point sums, duplicate ids, dangling `order` solution ids) and is printed with
+  `console.warn` from `ExamSelect` under `import.meta.env.DEV`.
+
 ## Notes
 
 - `attic/` is excluded from lint and build; treat it as dead/reference code.
 - Styling is Tailwind v4 via `@tailwindcss/vite` (no config file); colors like `#b6d957`
   are chosen to match the report layout.
+- Graph exam PDFs go in `pdfs/` with the `gt-*` names from `figures.manifest.json`
+  (`gt-ws2021.pdf`, `gt-ss2021.pdf`, `gt-ss2023.pdf`, `gt-ws2324.pdf`,
+  `gt-mock2025.pdf`), same as the Embedded PDFs — one `npm run figures` command builds
+  both. `scripts/calibrate-figures.py` only touches the Embedded (non-`gt-`) entries and
+  preserves the Graph ones; Graph rects are hand-measured via
+  `npm run figures -- --inspect`.

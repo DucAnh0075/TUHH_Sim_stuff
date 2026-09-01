@@ -192,12 +192,20 @@ def rtc_grid(png):
 
 def main():
     manifest = json.loads((ROOT / 'figures.manifest.json').read_text())
-    figures = {}
+    # Preserve the hand-measured Graph Theory entries - this script only recomputes the
+    # ES ones below and otherwise replaces the whole "figures" map.
+    figures = {k: v for k, v in manifest['figures'].items() if k.startswith('gt-')}
     problems = []
 
     with tempfile.TemporaryDirectory() as tmp:
         tmp = Path(tmp)
         for exam, rel in manifest['pdfs'].items():
+            # Graph Theory exams have their own hand-measured rects (npm run figures --
+            # -- inspect), not this ES-specific PLAN/layout. Skip them so a re-run here
+            # never overwrites or deletes their entries.
+            if exam.startswith('gt-'):
+                continue
+
             pdf = ROOT / rel
             if not pdf.exists():
                 problems.append(f'{exam}: {rel} fehlt')

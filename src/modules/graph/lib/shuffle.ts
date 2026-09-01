@@ -1,7 +1,7 @@
 import type { Task } from '../types'
 
 /** In-place Fisher-Yates on a copy; returns the shuffled copy. */
-function shuffled<T>(items: readonly T[]): T[] {
+export function shuffle<T>(items: readonly T[]): T[] {
   const out = items.slice()
   for (let i = out.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1))
@@ -16,9 +16,9 @@ function shuffled<T>(items: readonly T[]): T[] {
  * objects, so scoring stays correct.
  */
 export function shuffleTasks(tasks: readonly Task[]): Task[] {
-  return shuffled(tasks).map((task) =>
-    task.kind === 'multi'
-      ? { ...task, statements: shuffled(task.statements) }
-      : { ...task, options: shuffled(task.options) },
-  )
+  return shuffle(tasks).map((task) => {
+    if (task.kind === 'multi') return { ...task, statements: shuffle(task.statements) }
+    if (task.kind === 'single') return { ...task, options: shuffle(task.options) }
+    return task // open problems have nothing to shuffle
+  })
 }
