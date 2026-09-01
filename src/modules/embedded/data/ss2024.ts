@@ -408,7 +408,7 @@ export const SS2024: Exam = {
       table: {
         headers: ['Task', 'Arrival', 'Absolute Deadline', 'Duration'],
         rows: [
-          ['T1', '3', '15', '6'],
+          ['T1', '2', '15', '6'],
           ['T2', '1', '18', '7'],
           ['T3', '5', '9', '4'],
           ['T4', '4', '25', '8'],
