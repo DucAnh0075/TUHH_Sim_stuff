@@ -14,7 +14,7 @@ function App() {
         <button
           type="button"
           onClick={() => setModule(null)}
-          className="fixed top-3 left-3 z-50 cursor-pointer rounded-full px-3 py-1.5 text-[13px] font-semibold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
+          className="fixed top-3 right-14 z-50 cursor-pointer rounded-full px-3 py-1.5 text-[13px] font-semibold text-gray-500 transition-colors hover:bg-gray-100 hover:text-gray-900 dark:text-gray-400 dark:hover:bg-gray-800 dark:hover:text-gray-100"
         >
           ← Module
         </button>
