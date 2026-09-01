@@ -22,7 +22,7 @@ export function ResultView({ exam, answers, confirmed, onBack, onRestart, onLeav
     <div className="mx-auto w-full max-w-4xl px-8 py-10">
       <h1 className="text-[30px] font-bold text-gray-900 dark:text-gray-100">Embedded Systems</h1>
       <h2 className="mt-1 text-[20px] font-bold text-gray-900 dark:text-gray-100">{exam.term}</h2>
-      <p className="mt-1 text-[15px] font-bold text-gray-700 dark:text-gray-300">Prof. Dr. Heiko Falk</p>
+      <p className="mt-1 text-[15px] font-bold text-gray-700 dark:text-gray-300">WC Krieger</p>
 
       <div className="mt-8 grid gap-10 md:grid-cols-2">
         <div>

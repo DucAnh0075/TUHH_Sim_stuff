@@ -10,11 +10,7 @@ type Props = {
 export function ExamSelect({ onStart }: Props) {
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="text-[32px] font-bold text-gray-900 dark:text-gray-100">Embedded Systems</h1>
-      <p className="mt-2 mb-8 text-[15px] text-gray-600 dark:text-gray-400">
-        Wähle eine Klausur. Alle Aufgaben stammen wörtlich aus den Auswertungsberichten von
-        Prof. Dr. Heiko Falk.
-      </p>
+      <h1 className="mb-8 text-[32px] font-bold text-gray-900 dark:text-gray-100">Embedded Systems</h1>
 
       <div className="flex flex-col gap-3">
         {EXAMS.map((exam) => {
