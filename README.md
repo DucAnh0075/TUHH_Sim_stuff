@@ -1,29 +1,77 @@
-# ES Exam Trainer
+# ES/GT Exam Trainer
 
-Kompletter Durchlauf der Embedded-Systems-Klausuren von Prof. Dr. Heiko Falk, im Layout der
-Auswertungsberichte. Vor dem Start wählt man die Klausur — nach Semestern sortiert — oder den
-gemischten Modus.
+Klausur-Trainer für zwei TUHH-Module — **Embedded Systems** (Prof. Falk) und **Graphentheorie und Optimierung** (Prof. Taraz) — im Layout der offiziellen Auswertungsberichte.
+
+## Tech Stack
+
+| | |
+|---|---|
+| Framework | React 19 + TypeScript 6 |
+| Build | Vite 8 |
+| Styling | Tailwind CSS v4 (`@tailwindcss/vite`, kein Config-File) |
+| Math | KaTeX |
+| Figures | poppler-utils + Node.js (`scripts/extract-figures.mjs`) |
+| Persistenz | `localStorage` — kein Backend, kein Router |
+
+## Architecture
+
+```
+src/
+├── App.tsx                  # Modul-Switch: ModuleSelect → embedded | graph
+├── components/              # Global: ModuleSelect, ThemeToggle
+├── lib/                     # Global: theme.ts, storage.ts
+└── modules/
+    ├── embedded/            # ES-Klausur-Trainer
+    │   ├── types.ts         # Datenmodell + Scoring-Logik (Spine)
+    │   ├── components/      # ExamApp (State Machine), TaskView, 5 Task-Renderer
+    │   └── data/            # Eine TS-Datei pro Klausur + common.ts
+    └── graph/               # GT-Trainer
+        ├── types.ts         # Pool-Task-Union + GraphExam-Hierarchie (2 disjunkte Hälften)
+        ├── components/      # QuizApp (MC-Pool), GraphExamApp (Klausur)
+        └── data/            # questions.ts + exams/gt-*.ts
+```
+
+Beide Module sind vollständig isoliert — getrennte Typen, Komponenten, `localStorage`-Schlüssel (`es-exam-trainer:*` / `gt-exam-trainer:*`). Gemeinsam sind nur `Tex` und `PromptBox` (Kopien, kein Import).
+
+## Embedded Systems Klausuren
 
 | Klausur | Aufgaben | Punkte |
-| --- | --- | --- |
+|---|---|---|
 | ES Winter Term 2022 | 14 | 85 |
 | ES Summer Term 2022 | 14 | 90 |
 | ES Summer Term 2023 | 14 | 90 |
 | ES Summer Term 2024 | 14 | 88 |
-| ES Winter Term 2024/2025 | 14 | 90 |
+| ES Winter Term 2024/25 | 14 | 90 |
 | **Mixed Exam** | 14 | wechselnd |
 
-**Mixed Exam** zieht jeden der 14 Aufgabenslots (Multiple Choice / Cloze, StateCharts, C/E Net,
-Petrinets, VHDL, A/D 1+2, Scheduling ×3, Pareto, Real-Time Calculus, Caches 1+2) aus einem zufälligen
-Semester und rechnet Gesamtpunkte und Notentabelle passend aus.
+**Mixed Exam** zieht jeden der 14 Aufgabenslots aus einem zufälligen Semester und berechnet Gesamtpunkte und Notentabelle passend aus.
 
-Links liegt die vertikale Taskbar: alle Aufgaben mit Nummer und Punkten, verschachtelt die Teilaufgaben
-(Pareto, A/D Converter 2). Grau = unangetastet, blau = angefangen, **grün = erledigt**. Oben stehen
-Fortschrittsbalken und aktueller Punktestand, unten führt „Ergebnis anzeigen" zur Nachbildung von
-Seite 1 des Berichts (Overview, Conversion Table, berechnete Note).
+**Aufgabentypen:** `multi` (A–J Aussagen) · `cloze` (Lückentext) · `choice` (Single Choice) · `fields` (Textfelder; Layouts: `vhdl`/`adc`/`pareto`/`cache`) · `grid` (Gantt/StateChart, selbstbewertet)
 
-Der Fortschritt jeder Klausur wird im `localStorage` gespeichert und beim nächsten Start angeboten;
-das Mixed Exam wird bewusst nicht gespeichert.
+## Graph Theory Klausuren
+
+| Klausur | Punkte |
+|---|---|
+| GTOP WS 20/21 | 100 |
+| GTOP SS 2021 | 100 |
+| GTOP WS 22/23 | 100 |
+| GTOP SS 2023 | 100 |
+| GTOP WS 23/24 | 100 |
+| GTOP SS 2024 | 100 |
+| GTOP SS 2024 (Slot B) | 100 |
+| GTOP WS 24/25 | 100 |
+| GTOP SS 2025 | 100 |
+| GTOP Mock Exam SoSe 2025 | 100 |
+
+Zusätzlich ein flacher **Multiple-Choice-Pool** aus allen Semestern (eine Frage pro Bildschirm).
+
+**Aufgabentypen:** `fields` · `single` · `multi` · `order` (Reihenfolge-Puzzle) · `open` (selbstbewertet, z. B. Beweise) · `info` (Zwischentext ohne Punkte)
+
+## Bewertung
+
+**Automatisch:** Multiple Choice, Cloze, C/E Net, RTC, Petrinets, VHDL, A/D Converter, Pareto, Caches, GT `fields`/`single`/`order`. Textfelder normalisiert verglichen; Kommalisten als Mengen (`A0,A1` == `a1,a0`), Binärausgaben numerisch (`01` == `1`).
+
+**Selbstbewertet:** StateCharts, Scheduling-Gantt, GT `open`-Parts (gezeichnete Lösungen, Beweise). `Confirm` blendet die offizielle Lösung ein, Punkte werden manuell eingetragen.
 
 ## Run
 
@@ -32,103 +80,27 @@ npm install
 npm run dev
 ```
 
-## Abbildungen aus den PDFs
+## Figures
 
-Die Diagramme (StateCharts-Modelle, C/E-Netze, VHDL-Schaltbilder, A/D-Plots, Pareto-Diagramme,
-Arrival Curves und die Gantt-Lösungen) werden aus den Original-PDFs geschnitten. Die fünf Berichte
-liegen dafür unter diesen Namen in [`pdfs/`](pdfs/) — sie sind persönliche Auswertungsberichte und
-bleiben per `.gitignore` außerhalb von Git:
+Diagramme werden aus den Original-PDFs geschnitten (per `.gitignore` lokal):
 
 ```
+# Embedded Systems
 pdfs/ws2122.pdf   pdfs/ss2022.pdf   pdfs/ss2023.pdf   pdfs/ss2024.pdf   pdfs/ws2425.pdf
+
+# Graph Theory
+pdfs/gt-ws2021.pdf   pdfs/gt-ss2021.pdf   pdfs/gt-ws2223.pdf   pdfs/gt-ss2023.pdf
+pdfs/gt-ws2324.pdf   pdfs/gt-ss2024.pdf   pdfs/gt-ss2024b.pdf
+pdfs/gt-ws2425.pdf   pdfs/gt-ss2025.pdf   pdfs/gt-mock2025.pdf
 ```
 
 ```bash
-npm run figures                # baut public/figures/ (74 Abbildungen, braucht poppler-utils)
-npm run figures -- --inspect   # legt alle Seiten + eingebettete Bilder unter public/figures/_inspect ab
+npm run figures                # baut public/figures/ (braucht poppler-utils)
+npm run figures -- --inspect   # legt alle Seiten unter public/figures/_inspect ab
 ```
 
-Ohne die PDFs läuft alles ganz normal, an der Stelle der Abbildung steht dann ein Platzhalter.
+`figures.manifest.json` enthält für jede Abbildung Seite + Ausschnitt. ES-Ausschnitte werden per `scripts/calibrate-figures.py` (Pillow + numpy) automatisch berechnet; GT-Ausschnitte werden manuell per `--inspect` gemessen. Ohne PDFs läuft die App normal — an Stelle der Abbildung erscheint ein Platzhalter.
 
-[`figures.manifest.json`](figures.manifest.json) enthält für jede Abbildung die Seite und den
-Ausschnitt. Die Ausschnitte sind **nicht von Hand gemessen**, sondern von
-[`scripts/calibrate-figures.py`](scripts/calibrate-figures.py) bestimmt: das Skript rendert jede
-Seite, findet die zusammenhängenden Inhaltsblöcke und wählt daraus den richtigen aus (Regeln in
-`PLAN`, z. B. „StateCharts-Modell = alles außer dem letzten Block, Lösungstabelle = letzter Block").
-Nach einem PDF-Wechsel einmal
+## Bekannter Widerspruch in den Berichten
 
-```bash
-.venv/bin/python3 scripts/calibrate-figures.py   # braucht Pillow + numpy
-npm run figures
-```
-
-Die Arrival Curves sind echte eingebettete Bilder und werden direkt entnommen (`"image": n` im
-Manifest) statt aus der Seite geschnitten.
-
-Der Bericht **Sommer 2024** besteht aus reinen Seitenbildern. Dort sind die C/E-Optionen und die
-Real-Time-Calculus-Kurven nicht einzeln herauslösbar; diese beiden Aufgaben zeigen deshalb den
-gedruckten Optionsblock als eine Abbildung mit A–F-Knöpfen darunter (`optionsFigure`). Die
-Petrinetz-Flussrelation ist dort ebenfalls ein Ausschnitt statt abgetippter Text.
-
-## Bewertung
-
-Automatisch bewertet wird alles, wozu der Bericht einen Schlüssel abdruckt: Multiple Choice und Cloze,
-C/E Net und Real-Time Calculus (alles oder nichts), Petrinets, VHDL, beide A/D Converter, Pareto und
-beide Cache-Joins. Textfelder werden normalisiert verglichen; Kommalisten gelten als Menge
-(`A0,A1,A3` == `a1,a3,a0`), Binärausgaben numerisch (`01` == `1`).
-
-**StateCharts und die drei Scheduling-Aufgaben** haben im Bericht nur eine abgebildete Lösung. Dort
-füllt man das Raster aus, `Confirm` blendet die offizielle Lösung als Bild ein, und man trägt seine
-Punktzahl selbst ein — sie zählt ganz normal ins Gesamtergebnis.
-
-## Aufgabe ergänzen
-
-Die Klausuren liegen je in einer Datei unter [`src/data/`](src/data/); wiederkehrende Formulierungen
-stehen in [`src/data/common.ts`](src/data/common.ts). Nur **echte** Klausuraufgaben eintragen. Es gibt
-fünf Aufgabentypen (`kind`):
-
-- `multi` — Aussagen A–J mit `?`/`✓`/`✗`, `answer: true` heißt „die Aussage stimmt"
-- `cloze` — Sätze mit `{}` als Lücke, gemeinsamer Wortpool aus `answer`s + `distractors`
-- `choice` — Single Choice, Optionen als `text` oder `figure`, `correct` ist der Index
-- `fields` — Eingabefelder; `layout` steuert die Darstellung (`vhdl`, `adc`, `pareto`, `cache`, `single`),
-  `compare` die Bewertung (`exact`, `set`, `number`)
-- `grid` — Raster; `variant: 'gantt'` für die Scheduling-Charts, `'statechart'` für die Zustandstabelle
-
-Mathematik zwischen `$...$` wird mit KaTeX gesetzt; in normalen Strings müssen Backslashes verdoppelt
-werden (`'$WCET_{EST} \\geq WCET$'`).
-
-## Bekannter Widerspruch in den Klausuren
-
-Die Multiple-Choice-Aufgabe von **Winter 2022** wertet „A tight WCET estimate means
-$WCET_{EST} \geq WCET$" als **falsch**, während der Cloze der Klausur **Winter 2024/25** genau
-`WCET_EST >= WCET` als **richtige** Lösung verlangt. Beides steht so in den jeweiligen Berichten und
-bleibt deshalb unverändert — siehe die Kommentare in `src/data/ws2122.ts` und `src/data/ws2425.ts`.
-
-## Zweites Modul: Graphentheorie
-
-Neben dem Embedded-Modul enthält die App unter `src/modules/graph/` ein zweites, komplett getrenntes
-Modul für die Graphentheorie-und-Optimierung-Klausuren (Prof. Taraz). Es hat zwei Teile:
-
-- **Multiple Choice** — ein flacher Fragenpool (`src/modules/graph/data/questions.ts`), gemischt
-  abgefragt, eine Frage pro Bildschirm.
-- **Klausuren** — GTOP-Altklausuren als Trainer, eine Aufgabe pro Bildschirm, mit Sidebar,
-  gespeichertem Fortschritt und Notenschlüssel wie im Embedded-Modul.
-
-Eine Klausuraufgabe (`ExamTask` in `src/modules/graph/types.ts`) ist zusammengesetzt aus mehreren
-`Part`s, weil ein GTOP-Aufgabenblock im Bericht selten nur einen Antworttyp hat:
-
-- `fields` — Zahlen-/Textfelder (Restnetzwerk-Kanten, `d^k_{i,j}`, Kruskal-Werte, …)
-- `single` — genau eine richtige Option
-- `multi` — Aussagen A–J mit `?`/`✓`/`✗`, negative Bewertung, pro Aufgabenteil auf 0 gedeckelt
-- `order` — Bausteine in die richtige Reihenfolge bringen (Landau-Notation, Beweispuzzle, Reduktion,
-  Pseudocode), mit Distraktoren und Strafpunkten pro falscher Position
-- `open` — selbstbewerteter offener Teil (gezeichnete Lösungen, schriftliche Beweise); `noKey: true`
-  markiert einen Teil, zu dem der Bericht gar keine Lösung abdruckt
-- `info` — Zwischentext/Formel/Abbildung ohne eigene Punkte
-
-Fehlt ein Antwortschlüssel im Bericht, aber ist er aus Abbildung/Aufgabe eindeutig berechenbar, wird
-er berechnet und mit `derived: true` markiert (kleines Badge) — nie einfach weggelassen, weil das die
-Aufgabensumme und damit den Notenschlüssel verschieben würde.
-
-Die Klausur-PDFs liegen unter `pdfs/gt-*.pdf` (siehe `figures.manifest.json`) und laufen über
-dasselbe `npm run figures` wie die Embedded-Abbildungen, nur mit `gt-`-Präfix im Figure-Namespace.
+WS 2022 MC: „$WCET_{EST} \geq WCET$" → **falsch** · WS 2024/25 Cloze: `WCET_EST >= WCET` → **richtig**. Beide Berichte drucken es so — bleibt unverändert (siehe Kommentare in `ws2122.ts` / `ws2425.ts`).

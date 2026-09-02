@@ -148,12 +148,12 @@ export const SS2024: Exam = {
       title: 'Petrinets',
       points: 2,
       prompt: PETRINET_PROMPT,
-      promptExtra: ['$F = (c1, e1)(c1, e4)(c2, e2)(c3, e2)(c4, e3)(c5, e4)(e1, c5)(e2, c4)(e3, c2)(e4, c3)$'],
+      promptExtra: ['$F = (c1, e1)(c1, e3)(c2, e1)(c2, e2)(c3, e3)(c4, e4)(c5, e3)(e1, c3)(e1, c4)(e2, c5)(e3, c2)(e4, c4)$'],
       note: MC_NOTE,
       pointsPerStatement: 1,
       statements: [
         { text: 'The given net is pure', answer: true },
-        { text: 'The given net is not simple', answer: true },
+        { text: 'The given net is simple', answer: true },
       ],
     },
 

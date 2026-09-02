@@ -1,10 +1,13 @@
 import type { GraphExam, Task } from '../types'
 import { GT_SS2021 } from './exams/gt-ss2021'
 import { GT_SS2023 } from './exams/gt-ss2023'
+import { GT_MOCK2025 } from './exams/gt-mock2025'
 import { GT_SS2024 } from './exams/gt-ss2024'
+import { GT_SS2024B } from './exams/gt-ss2024b'
 import { GT_SS2025 } from './exams/gt-ss2025'
 import { GT_WS2021 } from './exams/gt-ws2021'
 import { GT_WS2223 } from './exams/gt-ws2223'
+import { GT_WS2324 } from './exams/gt-ws2324'
 import { GT_WS2425 } from './exams/gt-ws2425'
 import { TASKS } from './questions'
 
@@ -23,9 +26,12 @@ export const GRAPH_EXAMS: GraphExam[] = [
   GT_SS2021,
   GT_WS2223,
   GT_SS2023,
+  GT_WS2324,
   GT_SS2024,
+  GT_SS2024B,
   GT_WS2425,
   GT_SS2025,
+  GT_MOCK2025,
 ].sort((a, b) => a.order - b.order)
 
 export function findExam(id: string): GraphExam | undefined {

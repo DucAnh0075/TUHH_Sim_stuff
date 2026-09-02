@@ -36,7 +36,7 @@ import { grades } from './common'
 export const GT_SS2025: GraphExam = {
   id: 'gt-ss2025',
   title: 'GTOP Sommersemester 2025',
-  order: 7,
+  order: 8,
   language: 'en',
   totalPoints: 100,
   grades: grades(100),

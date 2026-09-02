@@ -40,7 +40,7 @@ import { grades } from './common'
 export const GT_WS2425: GraphExam = {
   id: 'gt-ws2425',
   title: 'GTOP Wintersemester 2024/25',
-  order: 6,
+  order: 7,
   language: 'de',
   totalPoints: 100,
   grades: grades(100),

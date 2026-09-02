@@ -7,7 +7,7 @@
     "or \"rect\": [x, y, w, h] (fractions of the page, 0..1) to an entry to narrow",
     "it down. Without either, the whole page is exported.",
     "Graph Theory exam figures use a 'gt-' exam prefix (gt-ws2021, gt-ss2021, gt-ws2223,",
-    "gt-ss2023, gt-ws2324, gt-ss2024, gt-ws2425, gt-ss2025, gt-mock2025) so they never collide with the Embedded module's ids above."
+    "gt-ss2023, gt-ws2324, gt-ss2024, gt-ss2024b, gt-ws2425, gt-ss2025, gt-mock2025) so they never collide with the Embedded module's ids above."
   ],
   "dpi": 150,
   "pdfs": {
@@ -22,6 +22,7 @@
     "gt-ws2223": "pdfs/gt-ws2223.pdf",
     "gt-ws2324": "pdfs/gt-ws2324.pdf",
     "gt-ss2024": "pdfs/gt-ss2024.pdf",
+    "gt-ss2024b": "pdfs/gt-ss2024b.pdf",
     "gt-ws2425": "pdfs/gt-ws2425.pdf",
     "gt-ss2025": "pdfs/gt-ss2025.pdf",
     "gt-mock2025": "pdfs/gt-mock2025.pdf"
@@ -785,6 +786,66 @@
         0.2787
       ]
     },
+    "gt-ss2024b/ff-network": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.0955,
+        0.4929,
+        0.1871
+      ]
+    },
+    "gt-ss2024b/ff-min-cut": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.0326,
+        0.5016,
+        0.2484
+      ]
+    },
+    "gt-ss2024b/floyd-warshall": {
+      "page": 4,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.0908,
+        0.46,
+        0.3
+      ]
+    },
+    "gt-ss2024b/kruskal": {
+      "page": 6,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.1048,
+        0.3205,
+        0.2484
+      ]
+    },
+    "gt-ss2024b/dfs": {
+      "page": 7,
+      "dpi": 220,
+      "rect": [
+        0.0395,
+        0.1048,
+        0.3853,
+        0.2484
+      ]
+    },
+    "gt-ss2024b/lp-plot": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.2931,
+        0.2384,
+        0.3952,
+        0.2787
+      ]
+    },
     "gt-ss2025/graph-parameter": {
       "page": 2,
       "dpi": 220,
@@ -1066,6 +1127,104 @@
       ]
     },
     "gt-ss2023/lp-plot": {
+      "page": 9,
+      "dpi": 220,
+      "rect": [
+        0.26,
+        0.255,
+        0.44,
+        0.26
+      ]
+    },
+    "gt-mock2025/ff-network": {
+      "page": 1,
+      "image": 0
+    },
+    "gt-mock2025/ff-mincut-residual": {
+      "page": 2,
+      "image": 0
+    },
+    "gt-mock2025/floyd-warshall": {
+      "page": 3,
+      "image": 0
+    },
+    "gt-mock2025/tsp-backtrack": {
+      "page": 4,
+      "image": 0
+    },
+    "gt-mock2025/kruskal": {
+      "page": 5,
+      "image": 0
+    },
+    "gt-mock2025/dfs": {
+      "page": 6,
+      "image": 0
+    },
+    "gt-mock2025/lp-plot": {
+      "page": 7,
+      "image": 0
+    },
+    "gt-ws2324/ff-network": {
+      "page": 2,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.088,
+        0.5,
+        0.19
+      ]
+    },
+    "gt-ws2324/ff-min-cut": {
+      "page": 3,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.052,
+        0.5,
+        0.235
+      ]
+    },
+    "gt-ws2324/floyd-warshall": {
+      "page": 4,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.093,
+        0.42,
+        0.255
+      ]
+    },
+    "gt-ws2324/tsp-backtrack": {
+      "page": 5,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.103,
+        0.32,
+        0.205
+      ]
+    },
+    "gt-ws2324/kruskal": {
+      "page": 7,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.5,
+        0.255
+      ]
+    },
+    "gt-ws2324/dfs": {
+      "page": 8,
+      "dpi": 220,
+      "rect": [
+        0.03,
+        0.1,
+        0.35,
+        0.255
+      ]
+    },
+    "gt-ws2324/lp-plot": {
       "page": 9,
       "dpi": 220,
       "rect": [
