@@ -1,7 +1,3 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" fill="#58b4c8">
-  <!-- T: top band + central stem -->
-  <rect x="0" y="0" width="100" height="18"/>
-  <rect x="38" y="0" width="20" height="60"/>
-  <!-- U: full-width bowl (outer minus inner via even-odd) -->
-  <path fill-rule="evenodd" d="M0 38.5 L0 50 A50 50 0 0 0 100 50 L100 38.5 Z M20 38.5 L20 50 A30 30 0 0 0 80 50 L80 38.5 Z"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100">
+  <text x="50" y="78" font-family="Georgia, serif" font-size="90" font-weight="bold" text-anchor="middle" fill="#58b4c8">y</text>
 </svg>

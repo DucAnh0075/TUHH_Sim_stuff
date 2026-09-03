@@ -13,7 +13,7 @@ const MODULES: { id: ModuleId; title: string }[] = [
 export function ModuleSelect({ onSelect }: Props) {
   return (
     <div className="mx-auto w-full max-w-3xl px-6 py-12">
-      <h1 className="mb-8 text-[32px] font-bold text-gray-900 dark:text-gray-100">TUHH Exam Simulation</h1>
+      <h1 className="mb-8 text-[32px] font-bold text-gray-900 dark:text-gray-100">not yabs</h1>
 
       <div className="flex flex-col gap-3">
         {MODULES.map((module) => (
