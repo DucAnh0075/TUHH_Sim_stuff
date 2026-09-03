@@ -152,7 +152,7 @@ export const SS2024: Exam = {
       note: MC_NOTE,
       pointsPerStatement: 1,
       statements: [
-        { text: 'The given net is pure', answer: true },
+        { text: 'The given net is pure', answer: false },
         { text: 'The given net is simple', answer: true },
       ],
     },
